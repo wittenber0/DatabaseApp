@@ -1,7 +1,4 @@
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.LinkedList;
 
 /**
@@ -26,19 +23,33 @@ public class DBHandler {
             throw new Exception();
         }
         System.out.println("myDB Registered and Connected");
+
+        LinkedList<String> columns = new LinkedList<String>();
+        columns.add("ColumnName");
+
+        createTable("ColumnTable", columns);
     }
 
     public boolean createTable(String name, LinkedList<String> columnList){
         try {
             Statement statement = connection.createStatement();
-            String tableSQL = "CREATE TABLE "+ name + "(\n ";
+            String tableSQL = "CREATE TABLE "+ name + " (\n";
             String columnType = "varchar(255)";
-            for(String c : columnList){
-                String s = c + " " + columnType +",\n ";
-                tableSQL += s;
+            for(int i=0; i< columnList.size(); i++){
+                String c = columnList.get(i);
+                if(i==0){
+                    String s =  c + " " + columnType;
+                    tableSQL += s;
+                }else {
+                    String s = ", \n" + c + " " + columnType;
+                    tableSQL += s;
+                }
             }
+            tableSQL += "\n)";
 
             System.out.println(tableSQL);
+
+            return true;
         }catch(Exception e){
             System.out.println(e);
         }
@@ -46,4 +57,22 @@ public class DBHandler {
 
         return false;
     }
+
+    public boolean saveColumnName(String c){
+        String addNameSQL = "";
+        addNameSQL += "INSERT INTO ColumnTable VALUES "+c;
+
+        try {
+            Statement statement = connection.createStatement();
+            statement.execute(addNameSQL);
+            return true;
+        }catch(Exception e){
+            System.out.println(e);
+        }
+
+        System.out.println(addNameSQL);
+
+        return false;
+    }
+
 }

@@ -28,7 +28,7 @@
                <children>
                   <Label text="All Columns" />
                   <ListView fx:id="allColumnsView" prefHeight="200.0" prefWidth="200.0" />
-                  <TextField fx:id="newColumnField" />
+                  <TextField fx:id="newColumnField" onKeyReleased="#newColumnKeyReleased" />
                   <Button fx:id="newColumnButton" mnemonicParsing="false" onAction="#onNewColumn" text="Create New Column" />
                </children>
             </VBox>
