@@ -1,4 +1,5 @@
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 /**
@@ -27,13 +28,24 @@ public class DBHandler {
         LinkedList<String> columns = new LinkedList<String>();
         columns.add("ColumnName");
 
+        LinkedList<String> TableNames = new LinkedList<String>();
+        TableNames.add("TableName");
+
 
         try{
             connection.createStatement().execute("SELECT * FROM ColumnTable");
-            System.out.println("Table Already Exists");
+            System.out.println("ColumnTable Already Exists");
         }catch(Exception e) {
             createTable("ColumnTable", columns);
-            System.out.println("Tables Created");
+            System.out.println("ColumnTable Created");
+        }
+
+        try{
+            connection.createStatement().execute("SELECT * FROM TableTable");
+            System.out.println("TableTable Already Exists");
+        }catch(Exception e) {
+            createTable("TableTable", TableNames);
+            System.out.println("TableTable Created");
         }
     }
 
@@ -57,6 +69,7 @@ public class DBHandler {
 
             System.out.println(tableSQL);
 
+            statement.execute("INSERT INTO TableTable (TableName) VALUES ('"+name+"'");
             return true;
         }catch(Exception e){
             System.out.println(e);
@@ -94,6 +107,12 @@ public class DBHandler {
         }catch(Exception e){
             return null;
         }
+    }
+
+    public LinkedList<Table> fetchTables(){
+
+        return null;
+
     }
 
 }
