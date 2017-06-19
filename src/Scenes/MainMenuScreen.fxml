@@ -21,7 +21,7 @@
       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <children>
             <Button fx:id="viewDataButton" mnemonicParsing="false" onAction="#onViewData" text="View Data" />
-            <Button fx:id="editDataButton" mnemonicParsing="false" onAction="#onEditData" text="Edit Data" />
+            <Button fx:id="editDataButton" mnemonicParsing="false" onAction="#onEditData" text="Edit Database" />
             <Button fx:id="logoutButton" mnemonicParsing="false" onAction="#onLogout" text="Logout" />
          </children>
       </VBox>
