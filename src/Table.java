@@ -5,8 +5,8 @@ import java.util.LinkedList;
  */
 public class Table {
     private String name;
-    private LinkedList<String> columns;
-    private LinkedList<String> rows;
+    private LinkedList<String> columns = new LinkedList<String>();
+    private LinkedList<String> rows = new LinkedList<String>();
 
     public Table(String n, LinkedList<String> c){
         name= n;

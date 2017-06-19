@@ -1,3 +1,5 @@
+import javafx.scene.control.Tab;
+
 import java.util.LinkedList;
 
 /**
@@ -6,7 +8,8 @@ import java.util.LinkedList;
 public class Directory {
     private static Directory dir;
     private DBHandler handler;
-    private LinkedList<String> columnNames;
+    private LinkedList<String> columnNames = new LinkedList<String>();
+    private LinkedList<Table> allTables = new LinkedList<Table>();
 
 
 
@@ -14,7 +17,8 @@ public class Directory {
     private Directory(){
         try {
             handler = new DBHandler();
-            columnNames = handler.getColumnNames();
+            load();
+
 
         }catch(Exception e){
 
@@ -32,6 +36,10 @@ public class Directory {
     public boolean makeTable(String name, LinkedList<String> columns){
         try {
             handler.createTable(name, columns);
+            Table t = new Table(name, columns);
+            allTables.add(t);
+            System.out.println("Success Creating Table");
+            return true;
         }catch(Exception e){
             System.out.println(e);
         }
@@ -48,4 +56,9 @@ public class Directory {
     public LinkedList<String> getColumnNames(){
         return columnNames;
     }
+
+    private void load(){
+        columnNames = handler.getColumnNames();
+    }
+
 }

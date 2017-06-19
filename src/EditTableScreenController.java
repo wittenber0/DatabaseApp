@@ -110,7 +110,8 @@ public class EditTableScreenController {
     }
 
     public void onSaveTable(ActionEvent actionEvent) {
-        
+        Directory dir = Directory.getInstance();
+        dir.makeTable(tableNameField.getText(), currentColumns);
     }
 
     public void newColumnKeyReleased(KeyEvent keyEvent) {
