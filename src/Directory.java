@@ -38,10 +38,9 @@ public class Directory {
             handler.createTable(name, columns);
             Table t = new Table(name, columns);
             allTables.add(t);
-            System.out.println("Success Creating Table");
             return true;
         }catch(Exception e){
-            System.out.println(e);
+            System.out.println("ya" + e);
         }
         return false;
 
@@ -59,6 +58,7 @@ public class Directory {
 
     private void load(){
         columnNames = handler.getColumnNames();
+        allTables = handler.fetchTables();
     }
 
 }

@@ -25,28 +25,8 @@ public class DBHandler {
         }
         System.out.println("myDB Registered and Connected");
 
-        LinkedList<String> columns = new LinkedList<String>();
-        columns.add("ColumnName");
+        startTables();
 
-        LinkedList<String> TableNames = new LinkedList<String>();
-        TableNames.add("TableName");
-
-
-        try{
-            connection.createStatement().execute("SELECT * FROM ColumnTable");
-            System.out.println("ColumnTable Already Exists");
-        }catch(Exception e) {
-            createTable("ColumnTable", columns);
-            System.out.println("ColumnTable Created");
-        }
-
-        try{
-            connection.createStatement().execute("SELECT * FROM TableTable");
-            System.out.println("TableTable Already Exists");
-        }catch(Exception e) {
-            createTable("TableTable", TableNames);
-            System.out.println("TableTable Created");
-        }
     }
 
     public boolean createTable(String name, LinkedList<String> columnList){
@@ -65,11 +45,22 @@ public class DBHandler {
                 }
             }
             tableSQL += "\n)";
-            statement.execute(tableSQL);
 
-            System.out.println(tableSQL);
+            try {
+                statement.execute(tableSQL);
+                System.out.println(name + " is created");
+                if(name=="TableTable"){
+                    return true;
+                }
+            }catch(Exception e){
+                System.out.println("Failure to create "+name);
+            }
 
-            statement.execute("INSERT INTO TableTable (TableName) VALUES ('"+name+"'");
+            try {
+                statement.execute("INSERT INTO TableTable (TableName) VALUES ('" + name + "')");
+            }catch(Exception e){
+                System.out.println(name + " is not added to TableTable");
+            }
             return true;
         }catch(Exception e){
             System.out.println(e);
@@ -110,9 +101,60 @@ public class DBHandler {
     }
 
     public LinkedList<Table> fetchTables(){
+        LinkedList<Table> allTables = new LinkedList<Table>();
+        try {
+            ResultSet r1 = connection.createStatement().executeQuery("SELECT * FROM TableTable");
+            while (r1.next()){
+                LinkedList<String> rowHeaders = new LinkedList<String>();
+                LinkedList<LinkedList<String>> rows = new LinkedList<LinkedList<String>>();
+                ResultSet r2 = connection.createStatement().executeQuery("SELECT * FROM "+r1.getString(1));
+                while (r2.next()){
+                    LinkedList<String> row = new LinkedList<String>();
+                    for (int i=1; i <= r2.getMetaData().getColumnCount(); i++){
+                        row.add(r2.getString(i));
+                    }
+                    if(row.size()!=0){
+                        rows.add(row);
+                    }
+                }
+                Table t = new Table(r1.getString(1), rowHeaders, rows);
+                System.out.println(t);
+                System.out.println(t.getColumns());
+                allTables.add(t);
+            }
+            return allTables;
+        }catch(Exception e){
+            System.out.println("could not load tables from db:   " + e);
+
+        }
 
         return null;
 
+    }
+
+    public void startTables(){
+        LinkedList<String> columns = new LinkedList<String>();
+        columns.add("ColumnName");
+
+        LinkedList<String> TableNames = new LinkedList<String>();
+        TableNames.add("TableName");
+
+
+        try{
+            connection.createStatement().execute("SELECT * FROM ColumnTable");
+            System.out.println("ColumnTable Already Exists");
+        }catch(Exception e) {
+            createTable("ColumnTable", columns);
+            //System.out.println("ColumnTable Created");
+        }
+
+        try{
+            connection.createStatement().execute("SELECT * FROM TableTable");
+            System.out.println("TableTable Already Exists");
+        }catch(Exception e) {
+            createTable("TableTable", TableNames);
+            //System.out.println("TableTable Created");
+        }
     }
 
 }
