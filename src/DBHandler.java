@@ -107,7 +107,8 @@ public class DBHandler {
             while (r1.next()){
                 LinkedList<String> rowHeaders = new LinkedList<String>();
                 LinkedList<LinkedList<String>> rows = new LinkedList<LinkedList<String>>();
-                ResultSet r2 = connection.createStatement().executeQuery("SELECT * FROM "+r1.getString(1));
+                String name = r1.getString(1);
+                ResultSet r2 = connection.createStatement().executeQuery("SELECT * FROM "+name);
                 while (r2.next()){
                     LinkedList<String> row = new LinkedList<String>();
                     for (int i=1; i <= r2.getMetaData().getColumnCount(); i++){
@@ -117,6 +118,14 @@ public class DBHandler {
                         rows.add(row);
                     }
                 }
+
+                String headerSQL = "select COLUMNNAME from sys.systables t, sys.syscolumns where TABLEID = REFERENCEID and tablename = 'test'";//WHERE tablename = '"+name+"'";
+                ResultSet r3 = connection.createStatement().executeQuery(headerSQL);
+
+                while (r3.next()){
+                    System.out.println(r3.getString(1));
+                }
+
                 Table t = new Table(r1.getString(1), rowHeaders, rows);
                 System.out.println(t);
                 System.out.println(t.getColumns());
