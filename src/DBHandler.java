@@ -166,4 +166,26 @@ public class DBHandler {
         }
     }
 
+    public boolean saveDataEntry(String name, String[] entry){
+        try{
+            String insertSQL = "INSERT INTO " + name + " VALUES (";
+            for(int i=0; i<entry.length; i++){
+                insertSQL+="'"+entry[i]+"'";
+                if(i!=entry.length-1){
+                    insertSQL+=",";
+                }else{
+                    insertSQL+=")";
+                }
+            }
+
+            System.out.println(insertSQL);
+            connection.createStatement().execute(insertSQL);
+
+        }catch(Exception e){
+            System.out.println(e);
+        }
+
+        return true;
+    }
+
 }

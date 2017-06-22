@@ -30,4 +30,9 @@ public class Table {
     public LinkedList<String> getColumns() {
         return columns;
     }
+
+    public boolean saveEntry(String[] entry){
+        Directory dir = Directory.getInstance();
+        return dir.saveEntry(this.name, entry);
+    }
 }

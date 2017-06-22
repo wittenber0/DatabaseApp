@@ -34,7 +34,7 @@
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <children>
                   <ChoiceBox fx:id="tableBox" prefWidth="150.0" />
-                  <TextField fx:id="fileField" />
+                  <TextField fx:id="fileField" onKeyReleased="#onFileKeyReleased" />
                   <Button fx:id="addFileButton" alignment="CENTER" mnemonicParsing="false" onAction="#onAddFile" text="Add File" />
                </children>
             </HBox>

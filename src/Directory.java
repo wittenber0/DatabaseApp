@@ -66,4 +66,8 @@ public class Directory {
         return allTables;
     }
 
+    public boolean saveEntry(String name, String[] entry){
+        return handler.saveDataEntry(name, entry);
+    }
+
 }
