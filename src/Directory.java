@@ -61,4 +61,9 @@ public class Directory {
         allTables = handler.fetchTables();
     }
 
+    public LinkedList<Table> getAllTables(){
+        System.out.println(allTables);
+        return allTables;
+    }
+
 }

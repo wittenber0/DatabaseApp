@@ -20,5 +20,7 @@ public class MainMenuScreenController {
     }
 
     public void onViewData(ActionEvent actionEvent) {
+        SceneMaster sceneMaster = SceneMaster.getSceneMaster();
+        sceneMaster.setStage("Scenes/ViewDataScreen.fxml");
     }
 }

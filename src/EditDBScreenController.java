@@ -20,5 +20,7 @@ public class EditDBScreenController {
     }
 
     public void onEditData(ActionEvent actionEvent) {
+        SceneMaster sceneMaster = SceneMaster.getSceneMaster();
+        sceneMaster.setStage("Scenes/EditDataScreen.fxml");
     }
 }

@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.VBox?>
-
 
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ViewDataScreenController">
    <children>
-      <ButtonBar prefHeight="40.0" prefWidth="200.0">
-        <buttons>
-            <ChoiceBox fx:id="TableBox" prefWidth="150.0" />
-        </buttons>
-      </ButtonBar>
-      <TableView fx:id="DataView" prefHeight="200.0" prefWidth="200.0">
+      <ToolBar prefHeight="40.0" prefWidth="200.0">
+        <items>
+          <Button mnemonicParsing="false" onAction="#onLogout" text="Loguot" />
+            <Button mnemonicParsing="false" onAction="#onBack" text="Back" />
+            <ChoiceBox fx:id="tableBox" prefWidth="150.0" />
+        </items>
+      </ToolBar>
+      <TableView fx:id="dataView" prefHeight="200.0" prefWidth="200.0">
         <columns>
           <TableColumn prefWidth="75.0" text="C1" />
           <TableColumn prefWidth="75.0" text="C2" />
