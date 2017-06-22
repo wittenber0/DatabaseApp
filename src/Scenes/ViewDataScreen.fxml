@@ -14,6 +14,7 @@
           <Button mnemonicParsing="false" onAction="#onLogout" text="Loguot" />
             <Button mnemonicParsing="false" onAction="#onBack" text="Back" />
             <ChoiceBox fx:id="tableBox" prefWidth="150.0" />
+            <Button mnemonicParsing="false" onAction="#onSubmit" text="Submit" />
         </items>
       </ToolBar>
       <TableView fx:id="dataView" prefHeight="200.0" prefWidth="200.0">
