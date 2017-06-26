@@ -50,12 +50,13 @@ public class EditDataScreenController {
                 String str = scanner.next();
 
                 String[] props = str.split(",");
-                table.saveEntry(props);
+                TableEntry entry = new TableEntry(props);
+                table.saveEntry(entry);
             }
 
 
         }catch(Exception e){
-            System.out.println("failed to find file");
+            System.out.println(e);
         }
 
         fileField.clear();

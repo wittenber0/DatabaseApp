@@ -31,8 +31,9 @@ public class Table {
         return columns;
     }
 
-    public boolean saveEntry(String[] entry){
+    public boolean saveEntry(TableEntry entry){
         Directory dir = Directory.getInstance();
+        rows.add(entry);
         return dir.saveEntry(this.name, entry);
     }
 

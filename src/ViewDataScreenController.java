@@ -41,7 +41,7 @@ public class ViewDataScreenController {
         for(int i=0; i<5; i++){
             TableColumn t = new TableColumn();
 
-            t.setCellValueFactory(new PropertyValueFactory<TableEntry, String>("values"));
+            t.setCellValueFactory(new PropertyValueFactory<TableEntry, String>("pointer"));
             columnList.add(t);
 
         }
