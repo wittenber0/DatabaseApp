@@ -11,7 +11,7 @@
    <children>
       <ToolBar prefHeight="40.0" prefWidth="200.0">
         <items>
-          <Button mnemonicParsing="false" onAction="#onLogout" text="Loguot" />
+          <Button mnemonicParsing="false" onAction="#onLogout" text="Logout" />
             <Button mnemonicParsing="false" onAction="#onBack" text="Back" />
             <ChoiceBox fx:id="tableBox" prefWidth="150.0" />
             <Button mnemonicParsing="false" onAction="#onSubmit" text="Submit" />

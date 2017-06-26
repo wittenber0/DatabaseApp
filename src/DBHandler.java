@@ -100,13 +100,13 @@ public class DBHandler {
         }
     }
 
-    public LinkedList<Table> fetchTables(){
+    public LinkedList<Table> setTables(){
         LinkedList<Table> allTables = new LinkedList<Table>();
         try {
             ResultSet r1 = connection.createStatement().executeQuery("SELECT * FROM TableTable");
             while (r1.next()){
                 LinkedList<String> rowHeaders = new LinkedList<String>();
-                LinkedList<LinkedList<String>> rows = new LinkedList<LinkedList<String>>();
+                LinkedList<TableEntry> rows = new LinkedList<TableEntry>();
                 String name = r1.getString(1);
                 ResultSet r2 = connection.createStatement().executeQuery("SELECT * FROM "+name);
                 while (r2.next()){
@@ -115,7 +115,7 @@ public class DBHandler {
                         row.add(r2.getString(i));
                     }
                     if(row.size()!=0){
-                        rows.add(row);
+                        rows.add(new TableEntry(row));
                     }
                 }
 
@@ -128,7 +128,7 @@ public class DBHandler {
 
                 Table t = new Table(r1.getString(1), rowHeaders, rows);
                 System.out.println(t);
-                System.out.println(t.getColumns());
+                System.out.println("Columns: " + t.getColumns());
                 allTables.add(t);
             }
             return allTables;

@@ -36,11 +36,14 @@ public class ViewDataScreenController {
         currentTable = tableBox.getValue();
         dataView.getColumns().removeAll(FXCollections.observableArrayList(dataView.getColumns()));
 
+
         LinkedList<TableColumn> columnList = new LinkedList<TableColumn>();
         for(int i=0; i<5; i++){
             TableColumn t = new TableColumn();
-            //t.setCellValueFactory(new PropertyValueFactory<LinkedList<String>, Integer>());
+
+            t.setCellValueFactory(new PropertyValueFactory<TableEntry, String>("values"));
             columnList.add(t);
+
         }
 
         dataView.getColumns().addAll(columnList);

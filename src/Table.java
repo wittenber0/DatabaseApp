@@ -6,14 +6,14 @@ import java.util.LinkedList;
 public class Table {
     private String name;
     private LinkedList<String> columns = new LinkedList<String>();
-    private LinkedList<LinkedList<String>> rows = new LinkedList<LinkedList<String>>();
+    private LinkedList<TableEntry> rows = new LinkedList<TableEntry>();
 
     public Table(String n, LinkedList<String> c){
         name= n;
         columns= c;
     }
 
-    public Table(String n, LinkedList<String> c, LinkedList<LinkedList<String>> r){
+    public Table(String n, LinkedList<String> c, LinkedList<TableEntry> r){
         name = n;
         columns= c;
         rows= r;
@@ -23,7 +23,7 @@ public class Table {
         return name;
     }
 
-    public LinkedList<LinkedList<String>> getRows() {
+    public LinkedList<TableEntry> getRows() {
         return rows;
     }
 

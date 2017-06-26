@@ -58,7 +58,7 @@ public class Directory {
 
     private void load(){
         columnNames = handler.getColumnNames();
-        allTables = handler.fetchTables();
+        allTables = handler.setTables();
     }
 
     public LinkedList<Table> getAllTables(){
