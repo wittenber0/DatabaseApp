@@ -1,3 +1,6 @@
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
@@ -13,10 +16,29 @@ public class NewViewScreenController {
     public Button setKeyButton;
     public Button saveViewButton;
 
+    private Table currentTable;
+
+    public void initialize(){
+        Directory dir = Directory.getInstance();
+        allTablesView.setItems(FXCollections.observableArrayList(dir.getAllTables()));
+        allTablesView.refresh();
+
+
+        allTablesView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Table>(){
+            public void changed(ObservableValue<? extends Table> observable, Table oldValue, Table newValue) {
+                currentTable = newValue;
+            }
+        });
+    }
+
     public void onBack(ActionEvent actionEvent) {
+        SceneMaster sceneMaster = SceneMaster.getSceneMaster();
+        sceneMaster.setStage("Scenes/EditDBScreen.fxml");
     }
 
     public void onLogout(ActionEvent actionEvent) {
+        SceneMaster sceneMaster = SceneMaster.getSceneMaster();
+        sceneMaster.setStage("Scenes/LoginScreen.fxml");
     }
 
     public void onAddTable(ActionEvent actionEvent) {
@@ -29,5 +51,6 @@ public class NewViewScreenController {
     }
 
     public void onSaveView(ActionEvent actionEvent) {
+        System.out.println(currentTable.getColumns());
     }
 }

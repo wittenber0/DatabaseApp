@@ -119,11 +119,12 @@ public class DBHandler {
                     }
                 }
 
-                String headerSQL = "select COLUMNNAME from sys.systables t, sys.syscolumns where TABLEID = REFERENCEID and tablename = 'test'";//WHERE tablename = '"+name+"'";
+                System.out.println("Name:        " + name);
+                String headerSQL = "select sys.syscolumns.columnname, sys.systables.tablename from sys.systables join sys.syscolumns on sys.systables.tableid = sys.syscolumns.referenceid where sys.systables.tablename = '"+name+"'";
                 ResultSet r3 = connection.createStatement().executeQuery(headerSQL);
 
                 while (r3.next()){
-                    System.out.println(r3.getString(1));
+                    System.out.println("R3:  "+r3.getString(1));
                 }
 
                 Table t = new Table(r1.getString(1), rowHeaders, rows);
