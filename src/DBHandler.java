@@ -120,7 +120,7 @@ public class DBHandler {
                 }
 
                 System.out.println("Name:        " + name);
-                String headerSQL = "select sys.syscolumns.columnname, sys.systables.tablename from sys.systables join sys.syscolumns on sys.systables.tableid = sys.syscolumns.referenceid where sys.systables.tablename = '"+name+"'";
+                String headerSQL = "select sys.syscolumns.columnname, sys.systables.tablename from sys.systables join sys.syscolumns on sys.systables.tableid = sys.syscolumns.referenceid";// where sys.systables.tablename = '"+name+"'";
                 ResultSet r3 = connection.createStatement().executeQuery(headerSQL);
 
                 while (r3.next()){

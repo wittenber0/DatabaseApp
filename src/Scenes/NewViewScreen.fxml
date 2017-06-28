@@ -29,8 +29,8 @@
                <children>
                   <Label text="View Tables" />
                   <ListView fx:id="viewTablesView" prefHeight="200.0" prefWidth="200.0" />
-                  <Button mnemonicParsing="false" onAction="#onAddTable" text="Add Table" />
-                  <Button mnemonicParsing="false" onAction="#onRemoveTable" text="Remove Table" />
+                  <Button fx:id="addTableButton" mnemonicParsing="false" onAction="#onAddTable" text="Add Table" />
+                  <Button fx:id="removeTableButton" mnemonicParsing="false" onAction="#onRemoveTable" text="Remove Table" />
                </children>
             </VBox>
             <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0">
@@ -51,7 +51,7 @@
       <HBox alignment="CENTER" prefHeight="133.0" prefWidth="600.0">
          <children>
             <Label text="View Name " />
-            <TextField />
+            <TextField fx:id="viewNameField" onKeyReleased="#onViewNameKeyReleased" />
             <Button fx:id="saveViewButton" mnemonicParsing="false" onAction="#onSaveView" text="Save View" />
          </children>
       </HBox>
