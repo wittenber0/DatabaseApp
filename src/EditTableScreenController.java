@@ -30,19 +30,11 @@ public class EditTableScreenController {
 
     public void initialize(){
         Directory dir = Directory.getInstance();
-        newColumnField.clear();
-        tableNameField.clear();
-        newColumnButton.setDisable(true);
-        newColumnButton.setOpacity(.5);
-        currentColumnsView.setItems(FXCollections.observableArrayList(currentColumns));
         allColumnsView.setItems(FXCollections.observableArrayList(dir.getColumnNames()));
+        allColumnsView.refresh();
 
-        saveTableButton.setOpacity(.5);
-        saveTableButton.setDisable(true);
-        addColumnButton.setDisable(true);
-        addColumnButton.setOpacity(.5);
-        removeColumnButton.setDisable(true);
-        removeColumnButton.setOpacity(.5);
+        setBoundaries();
+
 
         allColumnsView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>(){
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -94,6 +86,8 @@ public class EditTableScreenController {
         currentColumnsView.setItems(FXCollections.observableArrayList(currentColumns));
         currentColumnsView.refresh();
 
+        setSaveButton();
+
 
     }
 
@@ -107,11 +101,14 @@ public class EditTableScreenController {
             removeColumnButton.setDisable(true);
             removeColumnButton.setOpacity(.5);
         }
+
+        setSaveButton();
     }
 
     public void onSaveTable(ActionEvent actionEvent) {
         Directory dir = Directory.getInstance();
         dir.makeTable(tableNameField.getText().toUpperCase(), currentColumns);
+        setBoundaries();
     }
 
     public void newColumnKeyReleased(KeyEvent keyEvent) {
@@ -122,7 +119,27 @@ public class EditTableScreenController {
     }
 
     public void onNameKeyReleased(KeyEvent keyEvent) {
-        if(tableNameField.getText().equals("")){
+        setSaveButton();
+    }
+
+    public void setBoundaries(){
+        newColumnField.clear();
+        tableNameField.clear();
+        newColumnButton.setDisable(true);
+        newColumnButton.setOpacity(.5);
+        currentColumnsView.setItems(FXCollections.observableArrayList());
+        currentColumnsView.refresh();
+
+        saveTableButton.setOpacity(.5);
+        saveTableButton.setDisable(true);
+        addColumnButton.setDisable(true);
+        addColumnButton.setOpacity(.5);
+        removeColumnButton.setDisable(true);
+        removeColumnButton.setOpacity(.5);
+    }
+
+    private void setSaveButton(){
+        if(tableNameField.getText().equals("") || currentColumns.size()==0){
             saveTableButton.setOpacity(.5);
             saveTableButton.setDisable(true);
         }else{

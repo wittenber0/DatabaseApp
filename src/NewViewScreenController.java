@@ -155,6 +155,16 @@ public class NewViewScreenController {
                 }
             }
         }
+        LinkedList<String> r = new LinkedList<String>();
+        for (String c : cl){
+            for (Table t : currentViewTables){
+                if(!t.getColumns().contains(c) && !r.contains(c)){
+                    r.add(c);
+                }
+            }
+
+        }
+        cl.removeAll(r);
 
         allColumnsView.setItems(FXCollections.observableArrayList(cl));
         allColumnsView.refresh();
