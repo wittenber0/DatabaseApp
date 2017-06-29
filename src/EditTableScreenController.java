@@ -80,7 +80,7 @@ public class EditTableScreenController {
 
     public void onNewColumn(ActionEvent actionEvent) {
         Directory dir = Directory.getInstance();
-        dir.saveColumnName(newColumnField.getText());
+        dir.saveColumnName(newColumnField.getText().toUpperCase());
         newColumnField.clear();
         newColumnButton.setDisable(true);
         newColumnButton.setOpacity(.5);
@@ -111,7 +111,7 @@ public class EditTableScreenController {
 
     public void onSaveTable(ActionEvent actionEvent) {
         Directory dir = Directory.getInstance();
-        dir.makeTable(tableNameField.getText(), currentColumns);
+        dir.makeTable(tableNameField.getText().toUpperCase(), currentColumns);
     }
 
     public void newColumnKeyReleased(KeyEvent keyEvent) {

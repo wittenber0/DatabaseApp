@@ -49,7 +49,7 @@ public class DBHandler {
             try {
                 statement.execute(tableSQL);
                 System.out.println(name + " is created");
-                if(name=="TableTable"){
+                if(name=="TABLETABLE"){
                     return true;
                 }
             }catch(Exception e){
@@ -57,9 +57,9 @@ public class DBHandler {
             }
 
             try {
-                statement.execute("INSERT INTO TableTable (TableName) VALUES ('" + name + "')");
+                statement.execute("INSERT INTO TABLETABLE (TABLENAME) VALUES ('" + name + "')");
             }catch(Exception e){
-                System.out.println(name + " is not added to TableTable");
+                System.out.println(name + " is not added to TABLETABLE");
             }
             return true;
         }catch(Exception e){
@@ -71,7 +71,7 @@ public class DBHandler {
     }
 
     public boolean addColumnName(String c){
-        String addNameSQL = "INSERT INTO ColumnTable (ColumnName) VALUES ('"+c+"')";
+        String addNameSQL = "INSERT INTO COLUMNTABLE (COLUMNNAME) VALUES ('"+c+"')";
 
         try {
             Statement statement = connection.createStatement();
@@ -90,7 +90,7 @@ public class DBHandler {
     public LinkedList<String> getColumnNames(){
         try{
             LinkedList<String> columnNames = new LinkedList<String>();
-            ResultSet r = connection.createStatement().executeQuery("SELECT * FROM ColumnTable");
+            ResultSet r = connection.createStatement().executeQuery("SELECT * FROM COLUMNTABLE");
             while(r.next()){
                 columnNames.add(r.getString(1));
             }
@@ -103,7 +103,7 @@ public class DBHandler {
     public LinkedList<Table> setTables(){
         LinkedList<Table> allTables = new LinkedList<Table>();
         try {
-            ResultSet r1 = connection.createStatement().executeQuery("SELECT * FROM TableTable");
+            ResultSet r1 = connection.createStatement().executeQuery("SELECT * FROM TABLETABLE");
             while (r1.next()){
                 LinkedList<String> rowHeaders = new LinkedList<String>();
                 LinkedList<TableEntry> rows = new LinkedList<TableEntry>();
@@ -144,25 +144,25 @@ public class DBHandler {
 
     public void startTables(){
         LinkedList<String> columns = new LinkedList<String>();
-        columns.add("ColumnName");
+        columns.add("COLUMNNAME");
 
         LinkedList<String> TableNames = new LinkedList<String>();
-        TableNames.add("TableName");
+        TableNames.add("TABLENAME");
 
 
         try{
             connection.createStatement().execute("SELECT * FROM ColumnTable");
-            System.out.println("ColumnTable Already Exists");
+            System.out.println("COLUMNTABLE Already Exists");
         }catch(Exception e) {
-            createTable("ColumnTable", columns);
+            createTable("COLUMNTABLE", columns);
             //System.out.println("ColumnTable Created");
         }
 
         try{
-            connection.createStatement().execute("SELECT * FROM TableTable");
-            System.out.println("TableTable Already Exists");
+            connection.createStatement().execute("SELECT * FROM TABLETABLE");
+            System.out.println("TABLETABLE Already Exists");
         }catch(Exception e) {
-            createTable("TableTable", TableNames);
+            createTable("TABLETABLE", TableNames);
             //System.out.println("TableTable Created");
         }
     }

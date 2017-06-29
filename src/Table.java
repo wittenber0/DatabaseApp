@@ -14,7 +14,7 @@ public class Table {
     }
 
     public Table(String n, LinkedList<String> c, LinkedList<TableEntry> r){
-        name = n;
+        name = n.toUpperCase();
         columns= c;
         rows= r;
     }

@@ -35,8 +35,8 @@ public class Directory {
 
     public boolean makeTable(String name, LinkedList<String> columns){
         try {
-            handler.createTable(name, columns);
-            Table t = new Table(name, columns);
+            handler.createTable(name.toUpperCase(), columns);
+            Table t = new Table(name.toUpperCase(), columns);
             allTables.add(t);
             return true;
         }catch(Exception e){

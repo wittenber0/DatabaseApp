@@ -25,7 +25,7 @@ public class NewViewScreenController {
     private Table currentViewTable;
     private String currentAllColumn;
     private LinkedList<String> currentAllColumns = new LinkedList<String>();
-    private LinkedList<Table> currentAllTables = new LinkedList<Table>();
+    private LinkedList<Table> currentViewTables = new LinkedList<Table>();
 
     public void initialize(){
         Directory dir = Directory.getInstance();
@@ -46,6 +46,9 @@ public class NewViewScreenController {
         allColumnsView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>(){
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 currentAllColumn = newValue;
+
+                setKeyButton.setOpacity(1);
+                setKeyButton.setDisable(false);
             }
         });
 
@@ -70,11 +73,14 @@ public class NewViewScreenController {
     }
 
     public void onAddTable(ActionEvent actionEvent) {
-        currentAllTables.add(currentAllTable);
-        viewTablesView.setItems(FXCollections.observableArrayList(currentAllTables));
+        if(!currentViewTables.contains(currentAllTable)) {
+            currentViewTables.add(currentAllTable);
+        }
+        viewTablesView.setItems(FXCollections.observableArrayList(currentViewTables));
         currentAllColumns.addAll(currentAllTable.getColumns());
-        allColumnsView.setItems(FXCollections.observableArrayList(currentAllColumns));
-        allColumnsView.refresh();
+
+        setAllColumnsView();
+
         if(!viewNameField.getText().equals("")){
             saveViewButton.setOpacity(1);
             saveViewButton.setDisable(false);
@@ -82,14 +88,14 @@ public class NewViewScreenController {
     }
 
     public void onRemoveTable(ActionEvent actionEvent) {
-        currentAllTables.remove(currentViewTable);
-        viewTablesView.setItems(FXCollections.observableArrayList(currentAllTables));
+        currentViewTables.remove(currentViewTable);
+        viewTablesView.setItems(FXCollections.observableArrayList(currentViewTables));
         viewTablesView.refresh();
-        if(currentAllColumns.size() != 0 && currentViewTable.getColumns().size() != 0) {
-            currentAllColumns.removeAll(currentViewTable.getColumns());
-            currentAllColumns.addAll(currentAllTable.getColumns());
-        }
-        if(currentAllTables.size() ==0){
+        currentAllColumns.clear();
+
+        setAllColumnsView();
+
+        if(currentViewTables.size() ==0){
             setKeyButton.setOpacity(.5);
             setKeyButton.setDisable(true);
             saveViewButton.setOpacity(.5);
@@ -122,10 +128,16 @@ public class NewViewScreenController {
         saveViewButton.setOpacity(.5);
         saveViewButton.setDisable(true);
         viewNameField.clear();
+        viewTablesView.setItems(FXCollections.observableArrayList());
+        viewTablesView.refresh();
+        allColumnsView.setItems(FXCollections.observableArrayList());
+        allColumnsView.refresh();
+        uniqueKeyView.setItems(FXCollections.observableArrayList());
+        uniqueKeyView.refresh();
     }
 
     public void onViewNameKeyReleased(KeyEvent keyEvent) {
-        if(viewNameField.getText().equals("") || currentAllTables.size()==0){
+        if(viewNameField.getText().equals("") || currentViewTables.size()==0){
             saveViewButton.setOpacity(.5);
             saveViewButton.setDisable(true);
         }else{
@@ -133,4 +145,19 @@ public class NewViewScreenController {
             saveViewButton.setDisable(false);
         }
     }
+
+    private void setAllColumnsView(){
+        LinkedList<String> cl = new LinkedList<String>();
+        for (Table t : currentViewTables){
+            for (String c : t.getColumns()){
+                if(!cl.contains(c)){
+                    cl.add(c);
+                }
+            }
+        }
+
+        allColumnsView.setItems(FXCollections.observableArrayList(cl));
+        allColumnsView.refresh();
+    }
+
 }
