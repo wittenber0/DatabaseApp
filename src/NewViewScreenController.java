@@ -113,6 +113,18 @@ public class NewViewScreenController {
         myViewTablesView.setItems(FXCollections.observableArrayList(currentMyViewTables));
         myViewTablesView.refresh();
 
+        /*LinkedList<String> r = new LinkedList<String>();
+        if(currentMyViewTable !=null) {
+            for (String c : currentMyViewColumns) {
+                if (currentMyViewTable.getColumns().contains(c)) {
+                    r.add(c);
+                }
+            }
+        }
+        currentMyViewColumns.removeAll(r);
+        myViewColumnsView.setItems(FXCollections.observableArrayList(currentMyViewColumns));
+        myViewColumnsView.refresh();*/
+
         setSharedColumnsView();
         setAllColumnsView();
 
@@ -217,7 +229,7 @@ public class NewViewScreenController {
             removeColumnButton.setOpacity(.5);
             removeColumnButton.setDisable(true);
         }
-        
+
     }
 
     private void setSaveable(){
