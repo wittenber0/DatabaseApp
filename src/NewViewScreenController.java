@@ -30,6 +30,7 @@ public class NewViewScreenController {
     private String currentSharedColumn;
     private String currentAllColumn;
     private String currentMyViewColumn;
+    private String currentKey;
 
 
     private LinkedList<Table> currentMyViewTables = new LinkedList<Table>();
@@ -64,6 +65,9 @@ public class NewViewScreenController {
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 currentAllColumn = newValue;
 
+                addColumnButton.setOpacity(1);
+                addColumnButton.setDisable(false);
+
             }
         });
 
@@ -71,6 +75,8 @@ public class NewViewScreenController {
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 currentMyViewColumn = newValue;
 
+                removeColumnButton.setOpacity(1);
+                removeColumnButton.setDisable(false);
             }
         });
 
@@ -105,25 +111,33 @@ public class NewViewScreenController {
         setSharedColumnsView();
         setAllColumnsView();
 
+        if((currentKey != null) && (!currentAllTable.getColumns().contains(currentKey))){
+            uniqueKeyView.setItems(FXCollections.observableArrayList());
+            uniqueKeyView.refresh();
+        }
+
         setSaveable();
     }
 
     public void onRemoveTable(ActionEvent actionEvent) {
         currentMyViewTables.remove(currentMyViewTable);
-        myViewTablesView.setItems(FXCollections.observableArrayList(currentMyViewTables));
-        myViewTablesView.refresh();
 
-        /*LinkedList<String> r = new LinkedList<String>();
-        if(currentMyViewTable !=null) {
-            for (String c : currentMyViewColumns) {
-                if (currentMyViewTable.getColumns().contains(c)) {
-                    r.add(c);
-                }
+
+        LinkedList<String> r = new LinkedList<String>();
+
+        System.out.println("Check");
+        for (String c : currentMyViewColumns) {
+            if (currentMyViewTable.getColumns().contains(c)) {
+                r.add(c);
             }
         }
+
         currentMyViewColumns.removeAll(r);
+
+        myViewTablesView.setItems(FXCollections.observableArrayList(currentMyViewTables));
+        myViewTablesView.refresh();
         myViewColumnsView.setItems(FXCollections.observableArrayList(currentMyViewColumns));
-        myViewColumnsView.refresh();*/
+        myViewColumnsView.refresh();
 
         setSharedColumnsView();
         setAllColumnsView();
@@ -131,18 +145,20 @@ public class NewViewScreenController {
         if(currentMyViewTables.size() ==0){
             setKeyButton.setOpacity(.5);
             setKeyButton.setDisable(true);
-            setSaveable();
             removeTableButton.setOpacity(.5);
             removeTableButton.setDisable(true);
         }
 
         uniqueKeyView.setItems(FXCollections.observableArrayList());
         uniqueKeyView.refresh();
+        setSaveable();
     }
 
     public void onSetKey(ActionEvent actionEvent) {
-        uniqueKeyView.setItems(FXCollections.observableArrayList(currentSharedColumn));
+        currentKey = currentSharedColumn;
+        uniqueKeyView.setItems(FXCollections.observableArrayList(currentKey));
         uniqueKeyView.refresh();
+        setSaveable();
     }
 
     public void onSaveView(ActionEvent actionEvent) {
@@ -157,6 +173,10 @@ public class NewViewScreenController {
         removeTableButton.setDisable(true);
         setKeyButton.setOpacity(.5);
         setKeyButton.setDisable(true);
+        removeColumnButton.setOpacity(.5);
+        removeColumnButton.setDisable(true);
+        addColumnButton.setOpacity(.5);
+        addColumnButton.setDisable(true);
         setSaveable();
         viewNameField.clear();
         myViewTablesView.setItems(FXCollections.observableArrayList());
@@ -165,6 +185,8 @@ public class NewViewScreenController {
         sharedColumnsView.refresh();
         uniqueKeyView.setItems(FXCollections.observableArrayList());
         uniqueKeyView.refresh();
+
+
     }
 
     public void onViewNameKeyReleased(KeyEvent keyEvent) {
@@ -225,15 +247,15 @@ public class NewViewScreenController {
         myViewColumnsView.refresh();
 
         if(currentMyViewColumns.size() ==0){
-            setSaveable();
             removeColumnButton.setOpacity(.5);
             removeColumnButton.setDisable(true);
         }
+        setSaveable();
 
     }
 
     private void setSaveable(){
-        if(viewNameField.getText().equals("") || currentMyViewColumns.size()==0 || currentMyViewTables.size() ==0){
+        if(viewNameField.getText().equals("") || currentMyViewColumns.size()==0 || currentMyViewTables.size() ==0 || uniqueKeyView.getItems().size()==0){
             saveViewButton.setOpacity(.5);
             saveViewButton.setDisable(true);
         }else{

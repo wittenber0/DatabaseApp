@@ -70,4 +70,8 @@ public class Directory {
         return handler.saveDataEntry(name, entry);
     }
 
+    public LinkedList<TableEntry> doJoin(MyView v){
+        
+    }
+
 }
