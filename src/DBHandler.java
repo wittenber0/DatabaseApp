@@ -149,12 +149,26 @@ public class DBHandler {
         LinkedList<String> TableNames = new LinkedList<String>();
         TableNames.add("TABLENAME");
 
+        LinkedList<String> myViewColumns = new LinkedList<String>();
+        myViewColumns.add("MYVIEWNAME");
+        myViewColumns.add("MYVIEWCOLUMNS");
+        myViewColumns.add("MYVIEWTABLES");
+        myViewColumns.add("MYVIEWKEY");
+
 
         try{
-            connection.createStatement().execute("SELECT * FROM ColumnTable");
+            connection.createStatement().execute("SELECT * FROM COLUMNTABLE");
             System.out.println("COLUMNTABLE Already Exists");
         }catch(Exception e) {
             createTable("COLUMNTABLE", columns);
+            //System.out.println("ColumnTable Created");
+        }
+
+        try{
+            connection.createStatement().execute("SELECT * FROM MYVIEWTABLE");
+            System.out.println("MYVIEWTABLE Already Exists");
+        }catch(Exception e) {
+            createTable("MYVIEWTABLE", myViewColumns);
             //System.out.println("ColumnTable Created");
         }
 
@@ -187,6 +201,75 @@ public class DBHandler {
         }
 
         return true;
+    }
+
+    public boolean saveMyView(MyView v){
+        String columnS = "";
+        String tableS = "";
+        for(int i=0; i<v.columns.size(); i++){
+            columnS += v.columns.get(i);
+            if(i != v.columns.size() -1){
+                columnS += ",";
+            }
+        }
+
+        for(int i=0; i<v.tables.size(); i++){
+            tableS += v.tables.get(i);
+            if(i != v.tables.size() -1){
+                tableS += ",";
+            }
+        }
+
+        String addViewSQL = "INSERT INTO MYVIEWTABLE (MYVIEWNAME, MYVIEWCOLUMNS, MYVIEWTABLES, MYVIEWKEY) VALUES ("+ v.name + ", " + columnS + ", " + tableS + "," + v.keyColumn + ")";
+        try {
+            connection.createStatement().execute(addViewSQL);
+        }catch(Exception e){
+            System.out.println("Problem inserting to MYVIEWTABLE: " + e);
+            return false;
+        }
+
+        createTable(v.name.toUpperCase(),v.columns);
+        saveMyViewData(v);
+
+        return true;
+
+    }
+
+    public boolean saveMyViewData(MyView v){
+        LinkedList<TableEntry> myViewData = new LinkedList<TableEntry>();
+
+        String joinSQL = "SELECT * FROM ";
+
+        for (int i=0; i<v.columns.size(); i++){
+            joinSQL += v.columns.get(i);
+            if(i!=v.columns.size()-1){
+                joinSQL += " join ";
+            }
+        }
+
+        joinSQL += " on "+v.keyColumn;
+
+        System.out.println(joinSQL);
+
+        try {
+            ResultSet r = connection.createStatement().executeQuery(joinSQL);
+
+            while (r.next()){
+                LinkedList<String> entryStrings = new LinkedList<String>();
+                for(int j=0; j<r.getMetaData().getColumnCount(); j++){
+                    entryStrings.add(r.getString(j));
+                }
+                myViewData.add(new TableEntry(entryStrings));
+            }
+        }catch(Exception e){
+            System.out.println("Problem getting myViewData: " + e);
+
+        }
+
+        for (TableEntry t : myViewData){
+            saveDataEntry(v.name.toUpperCase(), t);
+        }
+
     }
 
 }

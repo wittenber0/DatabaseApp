@@ -71,7 +71,12 @@ public class Directory {
     }
 
     public LinkedList<TableEntry> doJoin(MyView v){
-        
+
+        return null;
+    }
+
+    public boolean saveMyView(MyView v){
+        return handler.saveMyView(v);
     }
 
 }
