@@ -220,7 +220,8 @@ public class DBHandler {
             }
         }
 
-        String addViewSQL = "INSERT INTO MYVIEWTABLE (MYVIEWNAME, MYVIEWCOLUMNS, MYVIEWTABLES, MYVIEWKEY) VALUES ("+ v.name + ", " + columnS + ", " + tableS + "," + v.keyColumn + ")";
+        String addViewSQL = "INSERT INTO MYVIEWTABLE (MYVIEWNAME, MYVIEWCOLUMNS, MYVIEWTABLES, MYVIEWKEY) VALUES ('"+ v.name + "', '" + columnS + "', '" + tableS + "', '" + v.keyColumn + "')";
+        System.out.println(addViewSQL);
         try {
             connection.createStatement().execute(addViewSQL);
         }catch(Exception e){
@@ -228,7 +229,7 @@ public class DBHandler {
             return false;
         }
 
-        createTable(v.name.toUpperCase(),v.columns);
+        //createTable(v.name.toUpperCase(),v.columns);
         saveMyViewData(v);
 
         return true;
@@ -240,14 +241,21 @@ public class DBHandler {
 
         String joinSQL = "SELECT * FROM ";
 
-        for (int i=0; i<v.columns.size(); i++){
-            joinSQL += v.columns.get(i);
-            if(i!=v.columns.size()-1){
+        for (int i=0; i<v.tables.size(); i++){
+            joinSQL += v.tables.get(i);
+            if(i!=v.tables.size()-1){
                 joinSQL += " join ";
             }
         }
 
-        joinSQL += " on "+v.keyColumn;
+        joinSQL += " on ";
+
+        for(int j=0; j<v.tables.size(); j++) {
+            joinSQL += v.tables.get(j) + "." + v.keyColumn;
+            if(j!=v.tables.size()-1){
+                joinSQL += " = ";
+            }
+        }
 
         System.out.println(joinSQL);
 
@@ -258,6 +266,7 @@ public class DBHandler {
                 LinkedList<String> entryStrings = new LinkedList<String>();
                 for(int j=0; j<r.getMetaData().getColumnCount(); j++){
                     entryStrings.add(r.getString(j));
+                    System.out.println(r.getString(j));
                 }
                 myViewData.add(new TableEntry(entryStrings));
             }
@@ -267,9 +276,10 @@ public class DBHandler {
         }
 
         for (TableEntry t : myViewData){
-            saveDataEntry(v.name.toUpperCase(), t);
+           //saveDataEntry(v.name.toUpperCase(), t);
         }
 
+        return true;
     }
 
 }
