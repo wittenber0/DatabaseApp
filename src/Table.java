@@ -3,7 +3,7 @@ import java.util.LinkedList;
 /**
  * Created by FMF 7 on 6/13/2017.
  */
-public class Table {
+public class Table implements IDirItem{
     private String name;
     private LinkedList<String> columns = new LinkedList<String>();
     private LinkedList<TableEntry> rows = new LinkedList<TableEntry>();

@@ -11,13 +11,13 @@ import java.util.LinkedList;
  * Created by FMF 7 on 6/19/2017.
  */
 public class ViewDataScreenController {
-    public ChoiceBox<Table> tableBox;
+    public ChoiceBox<MyView> tableBox;
     public TableView dataView;
-    private Table currentTable;
+    private MyView currentMyView;
 
     public void initialize(){
         Directory dir = Directory.getInstance();
-        tableBox.setItems(FXCollections.observableArrayList(dir.getAllTables()));
+        tableBox.setItems(FXCollections.observableArrayList(dir.getAllMyViews()));
 
 
     }
@@ -33,7 +33,8 @@ public class ViewDataScreenController {
     }
 
     public void onSubmit(ActionEvent actionEvent) {
-        currentTable = tableBox.getValue();
+        currentMyView = tableBox.getValue();
+        System.out.println(currentMyView.rows.size());
         dataView.getColumns().removeAll(FXCollections.observableArrayList(dataView.getColumns()));
 
 
@@ -47,7 +48,7 @@ public class ViewDataScreenController {
         }
 
         dataView.getColumns().addAll(columnList);
-        System.out.println(currentTable.getRows());
-        dataView.setItems(FXCollections.observableArrayList(currentTable.getRows()));
+        System.out.println(currentMyView.rows);
+        dataView.setItems(FXCollections.observableArrayList(currentMyView.rows));
     }
 }

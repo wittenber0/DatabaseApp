@@ -10,6 +10,7 @@ public class Directory {
     private DBHandler handler;
     private LinkedList<String> columnNames = new LinkedList<String>();
     private LinkedList<Table> allTables = new LinkedList<Table>();
+    private LinkedList<MyView> allMyViews = new LinkedList<MyView>();
 
 
 
@@ -18,8 +19,6 @@ public class Directory {
         try {
             handler = new DBHandler();
             load();
-
-
         }catch(Exception e){
 
         }
@@ -59,6 +58,11 @@ public class Directory {
     private void load(){
         columnNames = handler.getColumnNames();
         allTables = handler.setTables();
+        LinkedList<IDirItem> myViewItems = handler.loadDirItem("MyViews");
+        System.out.println(myViewItems.size());
+        for (IDirItem i: myViewItems){
+            allMyViews.add((MyView) i);
+        }
     }
 
     public LinkedList<Table> getAllTables(){
@@ -76,7 +80,13 @@ public class Directory {
     }
 
     public boolean saveMyView(MyView v){
+        allMyViews.add(v);
         return handler.saveMyView(v);
+    }
+
+    public LinkedList<MyView> getAllMyViews(){
+        System.out.println(allMyViews);
+        return allMyViews;
     }
 
 }

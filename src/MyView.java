@@ -3,7 +3,7 @@ import java.util.LinkedList;
 /**
  * Created by FMF 7 on 6/30/2017.
  */
-public class MyView {
+public class MyView implements IDirItem{
     public String name;
     public LinkedList<Table> tables;
     public LinkedList<String> columns;
@@ -27,5 +27,9 @@ public class MyView {
     public boolean saveMyView(){
         Directory dir = Directory.getInstance();
         return dir.saveMyView(this);
+    }
+
+    public String toString(){
+        return name;
     }
 }

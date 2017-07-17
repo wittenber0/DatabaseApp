@@ -119,7 +119,7 @@ public class DBHandler {
                     }
                 }
 
-                System.out.println("Name:        " + name);
+                //System.out.println("Name:        " + name);
                 String headerSQL = "select sys.syscolumns.columnname, sys.systables.tablename from sys.systables join sys.syscolumns on sys.systables.tableid = sys.syscolumns.referenceid where sys.systables.tablename = '"+name.toUpperCase()+"'";
                 ResultSet r3 = connection.createStatement().executeQuery(headerSQL);
 
@@ -128,8 +128,8 @@ public class DBHandler {
                 }
 
                 Table t = new Table(r1.getString(1), rowHeaders, rows);
-                System.out.println(t);
-                System.out.println("Columns: " + t.getColumns());
+                //System.out.println(t);
+                //System.out.println("Columns: " + t.getColumns());
                 allTables.add(t);
             }
             return allTables;
@@ -222,6 +222,10 @@ public class DBHandler {
 
         String addViewSQL = "INSERT INTO MYVIEWTABLE (MYVIEWNAME, MYVIEWCOLUMNS, MYVIEWTABLES, MYVIEWKEY) VALUES ('"+ v.name + "', '" + columnS + "', '" + tableS + "', '" + v.keyColumn + "')";
         System.out.println(addViewSQL);
+
+
+        createTable(v.name, v.columns);
+
         try {
             connection.createStatement().execute(addViewSQL);
         }catch(Exception e){
@@ -238,8 +242,26 @@ public class DBHandler {
 
     public boolean saveMyViewData(MyView v){
         LinkedList<TableEntry> myViewData = new LinkedList<TableEntry>();
+        System.out.println(v.columns);
 
-        String joinSQL = "SELECT * FROM ";
+
+        String joinSQL = "SELECT ";
+
+        for(int k=0; k<v.columns.size(); k++){
+            for(int m=0; m<v.tables.size(); m++){
+                if(v.tables.get(m).getColumns().contains(v.columns.get(k))){
+                    joinSQL+=v.tables.get(m).toString() + "." + v.columns.get(k);
+                    break;
+                }
+
+            }
+            if(k != v.columns.size() -1){
+                joinSQL+= ", ";
+            }
+        }
+
+
+        joinSQL += " FROM ";
 
         for (int i=0; i<v.tables.size(); i++){
             joinSQL += v.tables.get(i);
@@ -261,12 +283,13 @@ public class DBHandler {
 
         try {
             ResultSet r = connection.createStatement().executeQuery(joinSQL);
+            System.out.println("YAYAYA");
 
             while (r.next()){
                 LinkedList<String> entryStrings = new LinkedList<String>();
-                for(int j=0; j<r.getMetaData().getColumnCount(); j++){
-                    entryStrings.add(r.getString(j));
-                    System.out.println(r.getString(j));
+                for(int l=1; l<=r.getMetaData().getColumnCount(); l++){
+                    entryStrings.add(r.getString(l));
+                    System.out.println(r.getString(l));
                 }
                 myViewData.add(new TableEntry(entryStrings));
             }
@@ -280,6 +303,54 @@ public class DBHandler {
         }
 
         return true;
+    }
+
+    public LinkedList<IDirItem> loadDirItem(String s){
+        String q ="";
+        if(s.toUpperCase().equals("TABLES")){
+            q = "SELECT * FROM TABLETABLE";
+        }else if(s.toUpperCase().equals("MYVIEWS")){
+            q = "SELECT * FROM MYVIEWTABLE";
+        }
+        LinkedList<IDirItem> allItems = new LinkedList<IDirItem>();
+        try {
+            ResultSet r1 = connection.createStatement().executeQuery(q);
+            while (r1.next()){
+                LinkedList<String> rowHeaders = new LinkedList<String>();
+                LinkedList<TableEntry> rows = new LinkedList<TableEntry>();
+                String name = r1.getString(1);
+                ResultSet r2 = connection.createStatement().executeQuery("SELECT * FROM "+name);
+                while (r2.next()){
+                    LinkedList<String> row = new LinkedList<String>();
+                    for (int i=1; i <= r2.getMetaData().getColumnCount(); i++){
+                        row.add(r2.getString(i));
+                    }
+                    if(row.size()!=0){
+                        rows.add(new TableEntry(row));
+                    }
+                }
+
+                //System.out.println("Name:        " + name);
+                String headerSQL = "select sys.syscolumns.columnname, sys.systables.tablename from sys.systables join sys.syscolumns on sys.systables.tableid = sys.syscolumns.referenceid where sys.systables.tablename = '"+name.toUpperCase()+"'";
+                ResultSet r3 = connection.createStatement().executeQuery(headerSQL);
+
+                while (r3.next()){
+                    rowHeaders.add(r3.getString(1));
+                }
+
+                Table t = new Table(r1.getString(1), rowHeaders, rows);
+                //System.out.println(t);
+                //System.out.println("Columns: " + t.getColumns());
+                allItems.add(t);
+            }
+            return allItems;
+        }catch(Exception e){
+            System.out.println("could not load tables from db:   " + e);
+
+        }
+
+        return null;
+
     }
 
 }

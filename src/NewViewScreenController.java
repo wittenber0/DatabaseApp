@@ -162,9 +162,6 @@ public class NewViewScreenController {
     }
 
     public void onSaveView(ActionEvent actionEvent) {
-        System.out.println(currentAllTable.getColumns());
-
-
         MyView v = new MyView(viewNameField.getText(), currentMyViewTables, currentMyViewColumns, currentKey);
         v.saveMyView();
 
