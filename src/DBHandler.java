@@ -240,7 +240,7 @@ public class DBHandler {
 
     }
 
-    public boolean saveMyViewData(MyView v){
+    public LinkedList<TableEntry> saveMyViewData(MyView v){
         LinkedList<TableEntry> myViewData = new LinkedList<TableEntry>();
         System.out.println(v.columns);
 
@@ -295,55 +295,45 @@ public class DBHandler {
             }
         }catch(Exception e){
             System.out.println("Problem getting myViewData: " + e);
+            return null;
 
         }
 
-        for (TableEntry t : myViewData){
-           //saveDataEntry(v.name.toUpperCase(), t);
-        }
-
-        return true;
+        return myViewData;
     }
 
-    public LinkedList<IDirItem> loadDirItem(String s){
-        String q ="";
-        if(s.toUpperCase().equals("TABLES")){
-            q = "SELECT * FROM TABLETABLE";
-        }else if(s.toUpperCase().equals("MYVIEWS")){
-            q = "SELECT * FROM MYVIEWTABLE";
-        }
-        LinkedList<IDirItem> allItems = new LinkedList<IDirItem>();
+    public LinkedList<MyView> setMyViews(LinkedList<Table> allTables){
+        LinkedList<MyView> allMyViews = new LinkedList<MyView>();
         try {
-            ResultSet r1 = connection.createStatement().executeQuery(q);
+            ResultSet r1 = connection.createStatement().executeQuery("SELECT * FROM MYVIEWTABLE");
             while (r1.next()){
-                LinkedList<String> rowHeaders = new LinkedList<String>();
-                LinkedList<TableEntry> rows = new LinkedList<TableEntry>();
                 String name = r1.getString(1);
-                ResultSet r2 = connection.createStatement().executeQuery("SELECT * FROM "+name);
-                while (r2.next()){
-                    LinkedList<String> row = new LinkedList<String>();
-                    for (int i=1; i <= r2.getMetaData().getColumnCount(); i++){
-                        row.add(r2.getString(i));
-                    }
-                    if(row.size()!=0){
-                        rows.add(new TableEntry(row));
+
+                LinkedList<Table> myViewTables = new LinkedList<Table>();
+                String[] tString = r1.getString(3).split(",");
+                for (String s : tString){
+                    for(Table t: allTables){
+                        if(t.getName().equals(s)){
+                            myViewTables.add(t);
+                            break;
+                        }
                     }
                 }
 
-                //System.out.println("Name:        " + name);
-                String headerSQL = "select sys.syscolumns.columnname, sys.systables.tablename from sys.systables join sys.syscolumns on sys.systables.tableid = sys.syscolumns.referenceid where sys.systables.tablename = '"+name.toUpperCase()+"'";
-                ResultSet r3 = connection.createStatement().executeQuery(headerSQL);
-
-                while (r3.next()){
-                    rowHeaders.add(r3.getString(1));
+                LinkedList<String> myViewColumns = new LinkedList<String>();
+                String[] cString = r1.getString(2).split(",");
+                for (String c : cString){
+                    myViewColumns.add(c);
                 }
 
-                Table t = new Table(r1.getString(1), rowHeaders, rows);
+                String key = r1.getString(4);
+
+                MyView v = new MyView(name, myViewTables, myViewColumns, key, false);
                 //System.out.println(t);
                 //System.out.println("Columns: " + t.getColumns());
-                allItems.add(t);
+                allMyViews.add(v);
             }
-            return allItems;
+            return allMyViews;
         }catch(Exception e){
             System.out.println("could not load tables from db:   " + e);
 

@@ -13,6 +13,10 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         Directory dir = Directory.getInstance();
+        for(MyView v : dir.getAllMyViews()){
+            System.out.println("Joining data for: " + v.name);
+            v.populateRows();
+        }
         launch(args);
     }
 }

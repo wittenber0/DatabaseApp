@@ -162,7 +162,7 @@ public class NewViewScreenController {
     }
 
     public void onSaveView(ActionEvent actionEvent) {
-        MyView v = new MyView(viewNameField.getText(), currentMyViewTables, currentMyViewColumns, currentKey);
+        MyView v = new MyView(viewNameField.getText(), currentMyViewTables, currentMyViewColumns, currentKey, true);
         v.saveMyView();
 
         setBoundaries();

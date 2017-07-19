@@ -20,7 +20,7 @@ public class Directory {
             handler = new DBHandler();
             load();
         }catch(Exception e){
-
+            System.out.println("Could not load:  "+ e);
         }
 
     };
@@ -58,11 +58,8 @@ public class Directory {
     private void load(){
         columnNames = handler.getColumnNames();
         allTables = handler.setTables();
-        LinkedList<IDirItem> myViewItems = handler.loadDirItem("MyViews");
-        System.out.println(myViewItems.size());
-        for (IDirItem i: myViewItems){
-            allMyViews.add((MyView) i);
-        }
+        allMyViews = handler.setMyViews(allTables);
+
     }
 
     public LinkedList<Table> getAllTables(){
@@ -75,8 +72,7 @@ public class Directory {
     }
 
     public LinkedList<TableEntry> doJoin(MyView v){
-
-        return null;
+        return handler.saveMyViewData(v);
     }
 
     public boolean saveMyView(MyView v){
@@ -87,6 +83,15 @@ public class Directory {
     public LinkedList<MyView> getAllMyViews(){
         System.out.println(allMyViews);
         return allMyViews;
+    }
+
+    public Table getTableByName(String n){
+        for(Table t: allTables){
+            if(t.getName().equals(n)){
+                return t;
+            }
+        }
+        return null;
     }
 
 }

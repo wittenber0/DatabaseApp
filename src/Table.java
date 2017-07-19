@@ -37,4 +37,8 @@ public class Table implements IDirItem{
         return dir.saveEntry(this.name, entry);
     }
 
+    public String getName(){
+        return name;
+    }
+
 }
