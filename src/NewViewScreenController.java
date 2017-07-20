@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 
+import java.io.FileWriter;
 import java.util.LinkedList;
 
 /**
@@ -163,8 +164,7 @@ public class NewViewScreenController {
 
     public void onSaveView(ActionEvent actionEvent) {
         MyView v = new MyView(viewNameField.getText(), currentMyViewTables, currentMyViewColumns, currentKey, true);
-        v.saveMyView();
-
+        LinkedList<TableEntry> myViewData = v.saveMyView();
         setBoundaries();
         setSaveable();
     }

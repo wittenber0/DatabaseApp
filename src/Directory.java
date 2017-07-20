@@ -1,5 +1,9 @@
 import javafx.scene.control.Tab;
 
+import javax.jnlp.FileContents;
+import javax.jnlp.FileOpenService;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.LinkedList;
 
 /**
@@ -75,7 +79,7 @@ public class Directory {
         return handler.saveMyViewData(v);
     }
 
-    public boolean saveMyView(MyView v){
+    public LinkedList<TableEntry> saveMyView(MyView v){
         allMyViews.add(v);
         return handler.saveMyView(v);
     }
@@ -94,4 +98,25 @@ public class Directory {
         return null;
     }
 
+    public void exportToCSV(MyView v){
+        LinkedList<TableEntry> myViewData = doJoin(v);
+
+        try {
+            FileWriter f = new FileWriter("Output.csv");
+            for(TableEntry te : myViewData){
+                String row = "";
+                for(String s : te.getValues()){
+                    row += s+",";
+                }
+                row+="\n";
+                f.write(row);
+
+            }
+            f.flush();
+            
+
+        }catch(Exception e){
+
+        }
+    }
 }

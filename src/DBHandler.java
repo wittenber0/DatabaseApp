@@ -203,7 +203,7 @@ public class DBHandler {
         return true;
     }
 
-    public boolean saveMyView(MyView v){
+    public LinkedList<TableEntry> saveMyView(MyView v){
         String columnS = "";
         String tableS = "";
         for(int i=0; i<v.columns.size(); i++){
@@ -230,13 +230,11 @@ public class DBHandler {
             connection.createStatement().execute(addViewSQL);
         }catch(Exception e){
             System.out.println("Problem inserting to MYVIEWTABLE: " + e);
-            return false;
+            return null;
         }
 
         //createTable(v.name.toUpperCase(),v.columns);
-        saveMyViewData(v);
-
-        return true;
+        return saveMyViewData(v);
 
     }
 

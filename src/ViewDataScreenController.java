@@ -33,6 +33,7 @@ public class ViewDataScreenController {
     }
 
     public void onSubmit(ActionEvent actionEvent) {
+        Directory dir = Directory.getInstance();
         currentMyView = tableBox.getValue();
         System.out.println(currentMyView.rows.size());
         dataView.getColumns().removeAll(FXCollections.observableArrayList(dataView.getColumns()));
@@ -50,5 +51,7 @@ public class ViewDataScreenController {
         dataView.getColumns().addAll(columnList);
         System.out.println(currentMyView.rows);
         dataView.setItems(FXCollections.observableArrayList(currentMyView.rows));
+
+        dir.exportToCSV(currentMyView);
     }
 }

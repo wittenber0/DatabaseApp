@@ -29,7 +29,7 @@ public class MyView implements IDirItem{
 
     }
 
-    public boolean saveMyView(){
+    public LinkedList<TableEntry> saveMyView(){
         Directory dir = Directory.getInstance();
         return dir.saveMyView(this);
     }
