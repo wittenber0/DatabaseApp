@@ -11,7 +11,7 @@ public class EditDBScreenController {
 
     public void onLogout(ActionEvent actionEvent) {
         SceneMaster sceneMaster = SceneMaster.getSceneMaster();
-        sceneMaster.setStage("Scenes/LoginScreen.fxml");
+        sceneMaster.setStage("Scenes/MainMenuScreen.fxml");
     }
 
     public void onEditTables(ActionEvent actionEvent) {

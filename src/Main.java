@@ -7,7 +7,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         SceneMaster sceneMaster = SceneMaster.getSceneMaster();
         sceneMaster.loadSceneMasterStage(primaryStage);
-        sceneMaster.setStage("Scenes/LoginScreen.fxml");
+        sceneMaster.setStage("Scenes/MainMenuScreen.fxml");
     }
 
 

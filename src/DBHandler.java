@@ -193,6 +193,7 @@ public class DBHandler {
                 }
             }
 
+            System.out.println("------Saving Data Entry------");
             System.out.println(insertSQL);
             connection.createStatement().execute(insertSQL);
 
@@ -221,6 +222,7 @@ public class DBHandler {
         }
 
         String addViewSQL = "INSERT INTO MYVIEWTABLE (MYVIEWNAME, MYVIEWCOLUMNS, MYVIEWTABLES, MYVIEWKEY) VALUES ('"+ v.name + "', '" + columnS + "', '" + tableS + "', '" + v.keyColumn + "')";
+        System.out.println("------Saving MyView------");
         System.out.println(addViewSQL);
 
 
@@ -277,17 +279,16 @@ public class DBHandler {
             }
         }
 
+        System.out.println("------Joining MyView Components------");
         System.out.println(joinSQL);
 
         try {
             ResultSet r = connection.createStatement().executeQuery(joinSQL);
-            System.out.println("YAYAYA");
 
             while (r.next()){
                 LinkedList<String> entryStrings = new LinkedList<String>();
                 for(int l=1; l<=r.getMetaData().getColumnCount(); l++){
                     entryStrings.add(r.getString(l));
-                    System.out.println(r.getString(l));
                 }
                 myViewData.add(new TableEntry(entryStrings));
             }

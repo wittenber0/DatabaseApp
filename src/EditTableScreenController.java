@@ -26,12 +26,16 @@ public class EditTableScreenController {
 
     public String allColumnSelected;
     public String currentColumnSelected;
-    public LinkedList<String> currentColumns = new LinkedList<String>();
+    public LinkedList<String> currentColumns;
 
     public void initialize(){
         Directory dir = Directory.getInstance();
         allColumnsView.setItems(FXCollections.observableArrayList(dir.getColumnNames()));
         allColumnsView.refresh();
+
+        allColumnSelected = null;
+        currentColumnSelected = null;
+        currentColumns = new LinkedList<String>();
 
         setBoundaries();
 
@@ -47,7 +51,6 @@ public class EditTableScreenController {
 
         currentColumnsView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>(){
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                System.out.println("Selected item: " + newValue);
                 addColumnButton.setDisable(false);
                 addColumnButton.setOpacity(1);
                 removeColumnButton.setDisable(false);
@@ -67,7 +70,7 @@ public class EditTableScreenController {
 
     public void onLogout(ActionEvent actionEvent) {
         SceneMaster sceneMaster = SceneMaster.getSceneMaster();
-        sceneMaster.setStage("Scenes/LoginScreen.fxml");
+        sceneMaster.setStage("Scenes/MainMenuScreen.fxml");
     }
 
     public void onNewColumn(ActionEvent actionEvent) {
@@ -108,7 +111,7 @@ public class EditTableScreenController {
     public void onSaveTable(ActionEvent actionEvent) {
         Directory dir = Directory.getInstance();
         dir.makeTable(tableNameField.getText().toUpperCase(), currentColumns);
-        setBoundaries();
+        initialize();
     }
 
     public void newColumnKeyReleased(KeyEvent keyEvent) {

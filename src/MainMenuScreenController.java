@@ -9,10 +9,6 @@ public class MainMenuScreenController {
     public Button editDataButton;
     public Button logoutButton;
 
-    public void onLogout(ActionEvent actionEvent) {
-        SceneMaster sceneMaster = SceneMaster.getSceneMaster();
-        sceneMaster.setStage("Scenes/LoginScreen.fxml");
-    }
 
     public void onEditData(ActionEvent actionEvent) {
         SceneMaster sceneMaster = SceneMaster.getSceneMaster();

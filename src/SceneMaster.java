@@ -39,7 +39,7 @@ public class SceneMaster {
                 stage.show();
                 return true;
             } catch (Exception e) {
-                System.out.println("Problem Setting Scene");
+                System.out.println("Problem Setting Scene:  " + e);
                 return false;
             }
         }else{

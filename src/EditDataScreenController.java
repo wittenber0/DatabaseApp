@@ -30,7 +30,7 @@ public class EditDataScreenController {
 
     public void onLogout(ActionEvent actionEvent) {
         SceneMaster sceneMaster = SceneMaster.getSceneMaster();
-        sceneMaster.setStage("Scenes/LoginScreen.fxml");
+        sceneMaster.setStage("Scenes/MainMenuScreen.fxml");
     }
 
     public void onBack(ActionEvent actionEvent) {

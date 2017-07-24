@@ -22,7 +22,6 @@
          <children>
             <Button fx:id="viewDataButton" mnemonicParsing="false" onAction="#onViewData" text="View Data" />
             <Button fx:id="editDataButton" mnemonicParsing="false" onAction="#onEditData" text="Edit Database" />
-            <Button fx:id="logoutButton" mnemonicParsing="false" onAction="#onLogout" text="Logout" />
          </children>
       </VBox>
    </children>
