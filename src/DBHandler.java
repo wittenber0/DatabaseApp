@@ -57,7 +57,9 @@ public class DBHandler {
             }
 
             try {
-                statement.execute("INSERT INTO TABLETABLE (TABLENAME) VALUES ('" + name + "')");
+                PreparedStatement pst = connection.prepareStatement("INSERT INTO TABLETABLE (TABLENAME) VALUES (?)");
+                pst.setString(1,name);
+                pst.execute();
             }catch(Exception e){
                 System.out.println(name + " is not added to TABLETABLE");
             }
@@ -71,11 +73,12 @@ public class DBHandler {
     }
 
     public boolean addColumnName(String c){
-        String addNameSQL = "INSERT INTO COLUMNTABLE (COLUMNNAME) VALUES ('"+c+"')";
+        String addNameSQL = "INSERT INTO COLUMNTABLE (COLUMNNAME) VALUES (?)";
 
         try {
-            Statement statement = connection.createStatement();
-            statement.execute(addNameSQL);
+            PreparedStatement pst = connection.prepareStatement(addNameSQL);
+            pst.setString(1,c);
+            pst.execute();
 
             return true;
         }catch(Exception e){
