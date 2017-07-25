@@ -25,6 +25,7 @@ public class NewViewScreenController {
     public Button removeColumnButton;
     public TextField viewNameField;
     public ListView myViewColumnsView;
+    public Label errorLabel;
 
     private Table currentAllTable;
     private Table currentMyViewTable;
@@ -163,10 +164,16 @@ public class NewViewScreenController {
     }
 
     public void onSaveView(ActionEvent actionEvent) {
-        MyView v = new MyView(viewNameField.getText(), currentMyViewTables, currentMyViewColumns, currentKey, true);
-        LinkedList<TableEntry> myViewData = v.saveMyView();
-        setBoundaries();
-        setSaveable();
+        try {
+            StringChecker.check(viewNameField.getText());
+            MyView v = new MyView(viewNameField.getText(), currentMyViewTables, currentMyViewColumns, currentKey, true);
+            LinkedList<TableEntry> myViewData = v.saveMyView();
+            setBoundaries();
+            setSaveable();
+        }catch(Exception e){
+            errorLabel.setVisible(true);
+            setSaveable();
+        }
     }
 
     public void setBoundaries(){
@@ -188,11 +195,13 @@ public class NewViewScreenController {
         sharedColumnsView.refresh();
         uniqueKeyView.setItems(FXCollections.observableArrayList());
         uniqueKeyView.refresh();
+        errorLabel.setVisible(false);
 
 
     }
 
     public void onViewNameKeyReleased(KeyEvent keyEvent) {
+        errorLabel.setVisible(false);
         setSaveable();
     }
 
@@ -258,7 +267,7 @@ public class NewViewScreenController {
     }
 
     private void setSaveable(){
-        if(viewNameField.getText().equals("") || currentMyViewColumns.size()==0 || currentMyViewTables.size() ==0 || uniqueKeyView.getItems().size()==0){
+        if(viewNameField.getText().equals("") || currentMyViewColumns.size()==0 || currentMyViewTables.size() ==0 || uniqueKeyView.getItems().size()==0 || errorLabel.isVisible()){
             saveViewButton.setOpacity(.5);
             saveViewButton.setDisable(true);
         }else{

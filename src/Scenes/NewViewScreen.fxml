@@ -66,6 +66,7 @@
             <Label text="View Name " />
             <TextField fx:id="viewNameField" onKeyReleased="#onViewNameKeyReleased" />
             <Button fx:id="saveViewButton" mnemonicParsing="false" onAction="#onSaveView" text="Save View" />
+            <Label fx:id="errorLabel" text="Invalid Selection" textFill="RED" />
          </children>
       </HBox>
    </children>

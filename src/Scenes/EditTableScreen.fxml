@@ -42,5 +42,6 @@
          </children>
       </HBox>
       <Button fx:id="saveTableButton" mnemonicParsing="false" onAction="#onSaveTable" text="Save Table" />
+      <Label fx:id="errorLabel" text="Invalid Selecton" textFill="RED" />
    </children>
 </VBox>

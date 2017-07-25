@@ -3,6 +3,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
@@ -27,6 +28,7 @@ public class EditTableScreenController {
     public String allColumnSelected;
     public String currentColumnSelected;
     public LinkedList<String> currentColumns;
+    public Label errorLabel;
 
     public void initialize(){
         Directory dir = Directory.getInstance();
@@ -74,22 +76,30 @@ public class EditTableScreenController {
     }
 
     public void onNewColumn(ActionEvent actionEvent) {
-        Directory dir = Directory.getInstance();
-        dir.saveColumnName(newColumnField.getText().toUpperCase());
-        newColumnField.clear();
-        newColumnButton.setDisable(true);
-        newColumnButton.setOpacity(.5);
-        allColumnsView.setItems(FXCollections.observableArrayList(dir.getColumnNames()));
-        allColumnsView.refresh();
+        try {
+            StringChecker.check(newColumnField.getText());
+            Directory dir = Directory.getInstance();
+            dir.saveColumnName(newColumnField.getText().toUpperCase());
+            newColumnField.clear();
+            newColumnButton.setDisable(true);
+            newColumnButton.setOpacity(.5);
+            allColumnsView.setItems(FXCollections.observableArrayList(dir.getColumnNames()));
+            allColumnsView.refresh();
+        }catch(Exception e){
+            errorLabel.setVisible(true);
+        }
     }
 
     public void onAddColumn(ActionEvent actionEvent) {
+
+
         currentColumns.add(allColumnSelected);
 
         currentColumnsView.setItems(FXCollections.observableArrayList(currentColumns));
         currentColumnsView.refresh();
 
         setSaveButton();
+
 
 
     }
@@ -109,19 +119,30 @@ public class EditTableScreenController {
     }
 
     public void onSaveTable(ActionEvent actionEvent) {
-        Directory dir = Directory.getInstance();
-        dir.makeTable(tableNameField.getText().toUpperCase(), currentColumns);
-        initialize();
+        try {
+            StringChecker.check(tableNameField.getText());
+            Directory dir = Directory.getInstance();
+            dir.makeTable(tableNameField.getText().toUpperCase(), currentColumns);
+            initialize();
+        }catch(Exception e){
+            errorLabel.setVisible(true);
+
+        }
     }
 
     public void newColumnKeyReleased(KeyEvent keyEvent) {
+        errorLabel.setVisible(false);
         if(!newColumnField.getText().equals("")){
             newColumnButton.setOpacity(1);
             newColumnButton.setDisable(false);
+        }else{
+            newColumnButton.setOpacity(.5);
+            newColumnButton.setDisable(true);
         }
     }
 
     public void onNameKeyReleased(KeyEvent keyEvent) {
+        errorLabel.setVisible(false);
         setSaveButton();
     }
 
@@ -139,10 +160,12 @@ public class EditTableScreenController {
         addColumnButton.setOpacity(.5);
         removeColumnButton.setDisable(true);
         removeColumnButton.setOpacity(.5);
+
+        errorLabel.setVisible(false);
     }
 
     private void setSaveButton(){
-        if(tableNameField.getText().equals("") || currentColumns.size()==0){
+        if(tableNameField.getText().equals("") || currentColumns.size()==0 || errorLabel.isVisible()){
             saveTableButton.setOpacity(.5);
             saveTableButton.setDisable(true);
         }else{
