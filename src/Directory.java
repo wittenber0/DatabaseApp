@@ -105,8 +105,12 @@ public class Directory {
             FileWriter f = new FileWriter("Output.csv");
             for(TableEntry te : myViewData){
                 String row = "";
-                for(String s : te.getValues()){
-                    row += s+",";
+                for(int i=0; i<te.getValues().size(); i++){
+                    String s = te.getValues().get(i);
+
+                    if(i!=te.getValues().size()-1) {
+                        row += s + ",";
+                    }
                 }
                 row+="\n";
                 f.write(row);

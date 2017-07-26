@@ -16,7 +16,9 @@ public class MainMenuScreenController {
     }
 
     public void onViewData(ActionEvent actionEvent) {
+        System.out.println(StringChecker.split("This is, a test, lets see if this works"));
         SceneMaster sceneMaster = SceneMaster.getSceneMaster();
         sceneMaster.setStage("Scenes/ViewDataScreen.fxml");
+
     }
 }

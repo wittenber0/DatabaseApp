@@ -188,7 +188,7 @@ public class DBHandler {
         try{
             String insertSQL = "INSERT INTO " + name + " VALUES (";
             for(int i=0; i<entry.getValues().size(); i++){
-                insertSQL+="'"+entry.getValues().get(i)+"'";
+                insertSQL+=" ?";
                 if(i!=entry.getValues().size()-1){
                     insertSQL+=",";
                 }else{
@@ -196,12 +196,19 @@ public class DBHandler {
                 }
             }
 
+
+
             System.out.println("------Saving Data Entry------");
             System.out.println(insertSQL);
-            connection.createStatement().execute(insertSQL);
+            PreparedStatement pst = connection.prepareStatement(insertSQL);
+            for(int j=0; j< entry.getValues().size(); j++){
+                pst.setString(j+1, entry.getValues().get(j));
+            }
+            pst.execute();
 
         }catch(Exception e){
             System.out.println(e);
+            return false;
         }
 
         return true;
@@ -233,13 +240,21 @@ public class DBHandler {
 
         try {
             connection.createStatement().execute(addViewSQL);
+            LinkedList<TableEntry> myData = saveMyViewData(v);
+            return myData;
         }catch(Exception e){
             System.out.println("Problem inserting to MYVIEWTABLE: " + e);
+            String cleanup = "DELETE FROM MYVIEWTABLE WHERE MYVIEWTABLE.MYVIEWNAME="+v.name;
+            try {
+                System.out.println("Trying to remove bad view");
+                connection.createStatement().execute(cleanup);
+            }catch(Exception e2){
+                System.out.println("Failed: "+e2);
+
+            }
             return null;
         }
 
-        //createTable(v.name.toUpperCase(),v.columns);
-        return saveMyViewData(v);
 
     }
 

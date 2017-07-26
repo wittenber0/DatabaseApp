@@ -1,6 +1,7 @@
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -13,9 +14,11 @@ import java.util.LinkedList;
 public class ViewDataScreenController {
     public ChoiceBox<MyView> tableBox;
     public TableView dataView;
+    public Label errorLabel;
     private MyView currentMyView;
 
     public void initialize(){
+        errorLabel.setVisible(false);
         Directory dir = Directory.getInstance();
         tableBox.setItems(FXCollections.observableArrayList(dir.getAllMyViews()));
 
@@ -36,6 +39,10 @@ public class ViewDataScreenController {
         Directory dir = Directory.getInstance();
         currentMyView = tableBox.getValue();
         System.out.println(currentMyView.rows.size());
+        if(currentMyView.rows.size() ==0){
+            errorLabel.setText("There is no data stored in this view");
+            errorLabel.setVisible(true);
+        }
         dataView.getColumns().removeAll(FXCollections.observableArrayList(dataView.getColumns()));
 
 

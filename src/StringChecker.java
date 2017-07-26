@@ -1,3 +1,5 @@
+import java.util.LinkedList;
+
 /**
  * Created by FMF 7 on 7/25/2017.
  */
@@ -26,6 +28,18 @@ public class StringChecker {
         }else{
             return s;
         }
+    }
+
+    public static LinkedList<String> split(String s){
+        LinkedList<String> loStrings = new LinkedList<String>();
+
+        while(s.indexOf(",")>0){
+            int end = s.indexOf(",");
+            loStrings.add(s.substring(0,end));
+            s=s.substring(end+1,s.length());
+        }
+        loStrings.add(s);
+        return loStrings;
     }
 
 }
