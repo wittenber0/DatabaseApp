@@ -55,7 +55,7 @@ public class EditDataScreenController {
             while(scanner.hasNext()) {
                 String str = scanner.next();
 
-                LinkedList<String> props = StringChecker.split(str);
+                String[] props = str.split(",");
 
                 TableEntry entry = new TableEntry(props);
                 if(table.saveEntry(entry)){
@@ -64,7 +64,7 @@ public class EditDataScreenController {
                 total++;
             }
 
-            String percent = Double.toString((success/total)*100) + "%";
+            String percent = Double.toString((success/total)*100) + "%" + " of " + total +" fit the table format";
             errorLabel.setText(percent);
             errorLabel.setVisible(true);
 

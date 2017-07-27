@@ -33,7 +33,7 @@ public class DBHandler {
         try {
             Statement statement = connection.createStatement();
             String tableSQL = "CREATE TABLE "+ name + " (\n";
-            String columnType = "varchar(255)";
+            String columnType = "varchar(500)";
             for(int i=0; i< columnList.size(); i++){
                 String c = columnList.get(i);
                 if(i==0){
@@ -288,12 +288,14 @@ public class DBHandler {
             }
         }
 
-        joinSQL += " on ";
+        if(v.tables.size() > 1) {
+            joinSQL += " on ";
 
-        for(int j=0; j<v.tables.size(); j++) {
-            joinSQL += v.tables.get(j) + "." + v.keyColumn;
-            if(j!=v.tables.size()-1){
-                joinSQL += " = ";
+            for (int j = 0; j < v.tables.size(); j++) {
+                joinSQL += v.tables.get(j) + "." + v.keyColumn;
+                if (j != v.tables.size() - 1) {
+                    joinSQL += " = ";
+                }
             }
         }
 

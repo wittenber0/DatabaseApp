@@ -42,4 +42,9 @@ public class StringChecker {
         return loStrings;
     }
 
+    public static String clean(String s){
+        s = s.replace("\r", "");
+        //s = s.replace("'", "^(apostrophe)");
+        return s;
+    }
 }

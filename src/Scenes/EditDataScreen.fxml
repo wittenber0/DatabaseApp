@@ -25,7 +25,7 @@
                   <Button fx:id="addFileButton" alignment="CENTER" mnemonicParsing="false" onAction="#onAddFile" text="Add File" />
                </children>
             </HBox>
-            <Label fx:id="errorLabel" text="Problem Saving Data. Make sure your data has the same amount of rows as your table." textFill="RED" />
+            <Label fx:id="errorLabel" text="Problem Saving Data. Make sure your data has the same amount of rows as your table." textFill="BLACK" />
          </children>
       </VBox>
    </children>
