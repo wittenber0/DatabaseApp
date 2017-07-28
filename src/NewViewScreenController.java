@@ -166,8 +166,8 @@ public class NewViewScreenController {
     public void onSaveView(ActionEvent actionEvent) {
         try {
             StringChecker.check(viewNameField.getText());
-            MyView v = new MyView(viewNameField.getText(), currentMyViewTables, currentMyViewColumns, currentKey, true);
-            LinkedList<TableEntry> myViewData = v.saveMyView();
+            MyView v = new MyView(viewNameField.getText(), currentMyViewTables, currentMyViewColumns, currentKey);
+            v.saveMyView();
             setBoundaries();
             setSaveable();
         }catch(Exception e){

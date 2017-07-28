@@ -79,7 +79,7 @@ public class Directory {
         return handler.saveMyViewData(v);
     }
 
-    public LinkedList<TableEntry> saveMyView(MyView v){
+    public boolean saveMyView(MyView v){
         allMyViews.add(v);
         return handler.saveMyView(v);
     }
@@ -110,8 +110,11 @@ public class Directory {
 
                     if(i!=te.getValues().size()-1) {
                         row += s + ",";
+                    }else{
+                        row += s;
                     }
                 }
+                row = StringChecker.clean(row);
                 row+="\n";
                 f.write(row);
 

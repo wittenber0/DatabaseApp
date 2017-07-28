@@ -214,7 +214,7 @@ public class DBHandler {
         return true;
     }
 
-    public LinkedList<TableEntry> saveMyView(MyView v){
+    public boolean saveMyView(MyView v){
         String columnS = "";
         String tableS = "";
         for(int i=0; i<v.columns.size(); i++){
@@ -232,27 +232,20 @@ public class DBHandler {
         }
 
         String addViewSQL = "INSERT INTO MYVIEWTABLE (MYVIEWNAME, MYVIEWCOLUMNS, MYVIEWTABLES, MYVIEWKEY) VALUES ('"+ v.name + "', '" + columnS + "', '" + tableS + "', '" + v.keyColumn + "')";
+
+
         System.out.println("------Saving MyView------");
         System.out.println(addViewSQL);
-
-
-        createTable(v.name, v.columns);
+        //createTable(v.name, v.columns);
 
         try {
             connection.createStatement().execute(addViewSQL);
-            LinkedList<TableEntry> myData = saveMyViewData(v);
-            return myData;
+            System.out.println("Success");
+            //LinkedList<TableEntry> myData = saveMyViewData(v);
+            return true;
         }catch(Exception e){
-            System.out.println("Problem inserting to MYVIEWTABLE: " + e);
-            String cleanup = "DELETE FROM MYVIEWTABLE WHERE MYVIEWTABLE.MYVIEWNAME="+v.name;
-            try {
-                System.out.println("Trying to remove bad view");
-                connection.createStatement().execute(cleanup);
-            }catch(Exception e2){
-                System.out.println("Failed: "+e2);
-
-            }
-            return null;
+            System.out.println("Failed to save View:   " + e);
+            return false;
         }
 
 
@@ -347,7 +340,7 @@ public class DBHandler {
 
                 String key = r1.getString(4);
 
-                MyView v = new MyView(name, myViewTables, myViewColumns, key, false);
+                MyView v = new MyView(name, myViewTables, myViewColumns, key);
                 //System.out.println(t);
                 //System.out.println("Columns: " + t.getColumns());
                 allMyViews.add(v);

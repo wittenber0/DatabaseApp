@@ -8,28 +8,22 @@ public class MyView implements IDirItem{
     public LinkedList<Table> tables;
     public LinkedList<String> columns;
     public String keyColumn;
-    public LinkedList<TableEntry> rows;
 
-    public MyView(String name, LinkedList<Table> tables, LinkedList<String> columns, String keyColumn, boolean withLoad){
+    public MyView(String name, LinkedList<Table> tables, LinkedList<String> columns, String keyColumn){
         this.name = name;
         this.tables = tables;
         this.columns = columns;
         this.keyColumn = keyColumn;
-        if(withLoad) {
-            this.rows = populateRows();
-        }else{
-            this.rows= new LinkedList<TableEntry>();
-        }
     }
 
-    public LinkedList<TableEntry> populateRows(){
+    /*public LinkedList<TableEntry> populateRows(){
         Directory dir = Directory.getInstance();
         this.rows = dir.doJoin(this);
         return this.rows;
 
-    }
+    }*/
 
-    public LinkedList<TableEntry> saveMyView(){
+    public boolean saveMyView(){
         Directory dir = Directory.getInstance();
         return dir.saveMyView(this);
     }

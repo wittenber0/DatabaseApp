@@ -38,17 +38,18 @@ public class ViewDataScreenController {
     public void onSubmit(ActionEvent actionEvent) {
         Directory dir = Directory.getInstance();
         currentMyView = tableBox.getValue();
-        System.out.println(currentMyView.rows.size());
-        if(currentMyView.rows.size() ==0){
-            errorLabel.setText("There is no data stored in this view");
+        LinkedList<TableEntry> rows = dir.doJoin(currentMyView);
+        System.out.println(rows.size());
+        if(rows.size() ==0){
+            errorLabel.setText("There is no data for this view");
             errorLabel.setVisible(true);
         }
         dataView.getColumns().removeAll(FXCollections.observableArrayList(dataView.getColumns()));
 
 
         LinkedList<TableColumn> columnList = new LinkedList<TableColumn>();
-        for(int i=0; i<5; i++){
-            TableColumn t = new TableColumn();
+        for(int i=0; i<currentMyView.columns.size(); i++){
+            TableColumn t = new TableColumn(currentMyView.columns.get(i));
 
             t.setCellValueFactory(new PropertyValueFactory<TableEntry, String>("pointer"));
             columnList.add(t);
@@ -56,8 +57,8 @@ public class ViewDataScreenController {
         }
 
         dataView.getColumns().addAll(columnList);
-        System.out.println(currentMyView.rows);
-        dataView.setItems(FXCollections.observableArrayList(currentMyView.rows));
+        System.out.println(rows);
+        dataView.setItems(FXCollections.observableArrayList(rows));
 
         dir.exportToCSV(currentMyView);
     }
