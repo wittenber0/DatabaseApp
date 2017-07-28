@@ -65,7 +65,7 @@ public class DBHandler {
                     System.out.println(name + " is not added to TABLETABLE");
                 }
 
-                MyView v = new MyView(new Table("T_"+name, columnList));
+                MyView v = new MyView(new Table(name, columnList));
                 v.saveMyView();
             }
             return true;
