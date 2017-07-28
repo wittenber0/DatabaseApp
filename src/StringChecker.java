@@ -13,7 +13,6 @@ public class StringChecker {
                 || s.contains(".")
                 || s.contains("\n")
                 || s.contains("/")
-                || s.contains(" ")
                 || s.contains(",")
                 || s.contains("*")
                 || s.contains("&")
@@ -26,7 +25,7 @@ public class StringChecker {
                 || s.contains("FOR")){
             throw new InvalidSymbolException();
         }else{
-            return s;
+            return s.replace(" ", "_");
         }
     }
 
@@ -44,7 +43,6 @@ public class StringChecker {
 
     public static String clean(String s){
         s = s.replace("\r", "");
-        //s = s.replace("'", "^(apostrophe)");
         return s;
     }
 }

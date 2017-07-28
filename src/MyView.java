@@ -5,8 +5,8 @@ import java.util.LinkedList;
  */
 public class MyView implements IDirItem{
     public String name;
-    public LinkedList<Table> tables;
-    public LinkedList<String> columns;
+    public LinkedList<Table> tables = new LinkedList<Table>();
+    public LinkedList<String> columns = new LinkedList<String>();
     public String keyColumn;
 
     public MyView(String name, LinkedList<Table> tables, LinkedList<String> columns, String keyColumn){
@@ -14,6 +14,13 @@ public class MyView implements IDirItem{
         this.tables = tables;
         this.columns = columns;
         this.keyColumn = keyColumn;
+    }
+
+    public MyView(Table t){
+        this.name = t.getName();
+        this.tables.add(t);
+        this.columns = t.getColumns();
+        this.keyColumn = t.getColumns().get(0);
     }
 
     /*public LinkedList<TableEntry> populateRows(){

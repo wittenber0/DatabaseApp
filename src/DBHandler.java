@@ -29,7 +29,7 @@ public class DBHandler {
 
     }
 
-    public boolean createTable(String name, LinkedList<String> columnList){
+    public boolean createTable(String name, LinkedList<String> columnList, boolean tt){
         try {
             Statement statement = connection.createStatement();
             String tableSQL = "CREATE TABLE "+ name + " (\n";
@@ -56,12 +56,17 @@ public class DBHandler {
                 System.out.println("Failure to create "+name);
             }
 
-            try {
-                PreparedStatement pst = connection.prepareStatement("INSERT INTO TABLETABLE (TABLENAME) VALUES (?)");
-                pst.setString(1,name);
-                pst.execute();
-            }catch(Exception e){
-                System.out.println(name + " is not added to TABLETABLE");
+            if(tt) {
+                try {
+                    PreparedStatement pst = connection.prepareStatement("INSERT INTO TABLETABLE (TABLENAME) VALUES (?)");
+                    pst.setString(1, name);
+                    pst.execute();
+                } catch (Exception e) {
+                    System.out.println(name + " is not added to TABLETABLE");
+                }
+
+                MyView v = new MyView(new Table("T_"+name, columnList));
+                v.saveMyView();
             }
             return true;
         }catch(Exception e){
@@ -163,7 +168,7 @@ public class DBHandler {
             connection.createStatement().execute("SELECT * FROM COLUMNTABLE");
             System.out.println("COLUMNTABLE Already Exists");
         }catch(Exception e) {
-            createTable("COLUMNTABLE", columns);
+            createTable("COLUMNTABLE", columns, false);
             //System.out.println("ColumnTable Created");
         }
 
@@ -171,7 +176,7 @@ public class DBHandler {
             connection.createStatement().execute("SELECT * FROM MYVIEWTABLE");
             System.out.println("MYVIEWTABLE Already Exists");
         }catch(Exception e) {
-            createTable("MYVIEWTABLE", myViewColumns);
+            createTable("MYVIEWTABLE", myViewColumns, false);
             //System.out.println("ColumnTable Created");
         }
 
@@ -179,7 +184,7 @@ public class DBHandler {
             connection.createStatement().execute("SELECT * FROM TABLETABLE");
             System.out.println("TABLETABLE Already Exists");
         }catch(Exception e) {
-            createTable("TABLETABLE", TableNames);
+            createTable("TABLETABLE", TableNames, false);
             //System.out.println("TableTable Created");
         }
     }

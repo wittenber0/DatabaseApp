@@ -38,9 +38,9 @@ public class Directory {
 
     public boolean makeTable(String name, LinkedList<String> columns){
         try {
-            handler.createTable(name.toUpperCase(), columns);
             Table t = new Table(name.toUpperCase(), columns);
             allTables.add(t);
+            handler.createTable(t.getName(), t.getColumns(), true);
             return true;
         }catch(Exception e){
             System.out.println("ya" + e);
@@ -89,14 +89,6 @@ public class Directory {
         return allMyViews;
     }
 
-    public Table getTableByName(String n){
-        for(Table t: allTables){
-            if(t.getName().equals(n)){
-                return t;
-            }
-        }
-        return null;
-    }
 
     public void exportToCSV(MyView v){
         LinkedList<TableEntry> myViewData = doJoin(v);
@@ -124,6 +116,7 @@ public class Directory {
 
         }catch(Exception e){
 
+            System.out.println("Could Not Export:  " + e);
         }
     }
 }
