@@ -52,6 +52,7 @@ public class EditDataScreenController {
             LinkedList<Table> rows = new LinkedList<Table>();
             double success =0;
             double total =0;
+
             while(scanner.hasNext()) {
                 String str = scanner.next();
 

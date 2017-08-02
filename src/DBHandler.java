@@ -33,7 +33,7 @@ public class DBHandler {
         try {
             Statement statement = connection.createStatement();
             String tableSQL = "CREATE TABLE "+ name + " (\n";
-            String columnType = "varchar(500)";
+            String columnType = "varchar(10000)";
             for(int i=0; i< columnList.size(); i++){
                 String c = columnList.get(i);
                 if(i==0){

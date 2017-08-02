@@ -77,9 +77,9 @@ public class EditTableScreenController {
 
     public void onNewColumn(ActionEvent actionEvent) {
         try {
-            StringChecker.check(newColumnField.getText());
+            String c = StringChecker.check(newColumnField.getText());
             Directory dir = Directory.getInstance();
-            dir.saveColumnName(newColumnField.getText().toUpperCase());
+            dir.saveColumnName(c.toUpperCase());
             newColumnField.clear();
             newColumnButton.setDisable(true);
             newColumnButton.setOpacity(.5);
