@@ -360,4 +360,26 @@ public class DBHandler {
 
     }
 
+    public boolean deleteTable(String name){
+
+        try {
+            connection.createStatement().execute("DELETE FROM TABLETABLE WHERE TABLETABLE.TABLENAME='"+name+"'");
+            connection.createStatement().execute("DROP TABLE "+name);
+            return true;
+        }catch(Exception e){
+            System.out.println(e);
+            return false;
+        }
+    }
+
+    public boolean deleteMyView(String name){
+        try {
+            connection.createStatement().execute("DELETE FROM MYVIEWTABLE WHERE MYVIEWTABLE.MYVIEWNAME='"+name+"'");
+            return true;
+        }catch(Exception e){
+            System.out.println(e);
+            return false;
+        }
+    }
+
 }

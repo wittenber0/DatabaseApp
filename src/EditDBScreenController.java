@@ -28,4 +28,9 @@ public class EditDBScreenController {
         SceneMaster sceneMaster = SceneMaster.getSceneMaster();
         sceneMaster.setStage("Scenes/NewViewScreen.fxml");
     }
+
+    public void OnDeleteFromDB(ActionEvent actionEvent) {
+        SceneMaster sceneMaster = SceneMaster.getSceneMaster();
+        sceneMaster.setStage("Scenes/DeleteScreen.fxml");
+    }
 }

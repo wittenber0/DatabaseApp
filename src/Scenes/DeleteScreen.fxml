@@ -21,14 +21,14 @@
                <children>
                   <Label text="Tables" />
                   <ListView fx:id="tableView" prefHeight="200.0" prefWidth="200.0" />
-                  <Button fx:id="newColumnButton" mnemonicParsing="false" onAction="#onDeleteTable" text="Delete Table" />
+                  <Button fx:id="deleteTableButton" mnemonicParsing="false" onAction="#onDeleteTable" text="Delete Table" />
                </children>
             </VBox>
             <VBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="300.0">
                <children>
                   <Label text="MyViews" />
-                  <ListView fx:id="myViewTable" prefHeight="200.0" prefWidth="200.0" />
-                  <Button fx:id="removeColumnButton" mnemonicParsing="false" onAction="#onDeleteMyView" text="Delete MyView" />
+                  <ListView fx:id="myViewView" prefHeight="200.0" prefWidth="200.0" />
+                  <Button fx:id="deleteMyViewButton" mnemonicParsing="false" onAction="#onDeleteMyView" text="Delete MyView" />
                </children>
             </VBox>
          </children>

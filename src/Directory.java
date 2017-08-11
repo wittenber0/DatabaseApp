@@ -119,4 +119,22 @@ public class Directory {
             System.out.println("Could Not Export:  " + e);
         }
     }
+
+    public boolean deleteTable(Table t){
+        if(handler.deleteTable(t.getName())){
+            allTables.remove(t);
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public boolean deleteMyView(MyView v){
+        if(handler.deleteMyView(v.name)){
+            allMyViews.remove(v);
+            return true;
+        }else{
+            return false;
+        }
+    }
 }

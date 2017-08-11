@@ -32,6 +32,7 @@
                   <Button fx:id="editTablesButton" mnemonicParsing="false" onAction="#onEditTables" text="Edit Tables" />
                   <Button fx:id="editDataButton" mnemonicParsing="false" onAction="#onEditData" text="Edit Data" />
                   <Button mnemonicParsing="false" onAction="#onEditViews" text="Edit Views" />
+                  <Button mnemonicParsing="false" onAction="#OnDeleteFromDB" text="Delete From DB" />
                </children>
             </VBox>
          </children>
