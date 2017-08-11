@@ -45,6 +45,7 @@ public class DeleteScreenController {
 
         myViewView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<MyView>(){
             public void changed(ObservableValue<? extends MyView> observable, MyView oldValue, MyView newValue) {
+                errorLabel.setVisible(false);
                 deleteMyViewButton.setDisable(false);
                 deleteMyViewButton.setOpacity(1);
 
@@ -74,7 +75,11 @@ public class DeleteScreenController {
 
         }
         if(ready) {
-            Directory.getInstance().deleteTable(currentTable);
+
+            if(!Directory.getInstance().deleteTable(currentTable)){
+                errorLabel.setText("Problem Deleting Table");
+                errorLabel.setVisible(true);
+            }
             initialize();
         }else{
             errorLabel.setText("This table is used in views that still exist. Delete the views first");
@@ -83,7 +88,10 @@ public class DeleteScreenController {
     }
 
     public void onDeleteMyView(ActionEvent actionEvent) {
-        Directory.getInstance().deleteMyView(currentMyView);
+        if(!Directory.getInstance().deleteMyView(currentMyView)){
+            errorLabel.setText("Problem Deleting View");
+            errorLabel.setVisible(true);
+        }
         initialize();
     }
 }
