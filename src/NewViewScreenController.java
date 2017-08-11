@@ -119,6 +119,11 @@ public class NewViewScreenController {
         }
 
         setSaveable();
+
+        if(currentMyViewTables.size()==2){
+            addTableButton.setDisable(true);
+            addTableButton.setOpacity(.5);
+        }
     }
 
     public void onRemoveTable(ActionEvent actionEvent) {
@@ -154,6 +159,11 @@ public class NewViewScreenController {
         uniqueKeyView.setItems(FXCollections.observableArrayList());
         uniqueKeyView.refresh();
         setSaveable();
+
+        if(currentMyViewTables.size()< 2){
+            addTableButton.setDisable(false);
+            addTableButton.setOpacity(1);
+        }
     }
 
     public void onSetKey(ActionEvent actionEvent) {

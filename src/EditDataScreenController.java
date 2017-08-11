@@ -48,7 +48,7 @@ public class EditDataScreenController {
             Table table = tableBox.getValue();
             String pathDirectory = fileField.getText();
             System.out.println(pathDirectory);
-            Scanner scanner = new Scanner(new File(pathDirectory)).useDelimiter("\n");
+            Scanner scanner = new Scanner(new File(pathDirectory)).useDelimiter("\r\n");
             LinkedList<Table> rows = new LinkedList<Table>();
             double success =0;
             double total =0;
